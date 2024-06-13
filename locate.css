@@ -34,7 +34,7 @@
 }
 
 .body {
-  scrollbar-width: 5px;
+  scrollbar-width: thin;
 }
 
 .top a {
@@ -45,8 +45,9 @@
   flex-basis: 60%;
 }
 
-#shopping_icon {
+.shopping_icon {
   justify-content: space-between;
+  background-color: white;
 
   display: grid;
   grid-template-columns: 1fr 1fr; /* Chia lưới thành 2 cột */
@@ -59,7 +60,7 @@
   margin-right: 2px;
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 1350px) {
   .signup-login {
     height: 80%;
     margin-top: 5px;
@@ -71,18 +72,17 @@
     text-align: center;
     flex-direction: column;
     display: flex;
-    margin: 0px 0;
+    margin: 0px 7px;
     height: 30px;
-    width: 120px;
+    width: 150px;
     margin-bottom: 5px;
     padding: 5px 20px 0px;
     border: 1px solid #ccc;
     border-radius: 3px;
-    cursor: pointer;
   }
 }
 
-@media (min-width: 1150px) {
+@media (min-width: 1350px) {
   .signup-login {
     height: 70%;
     margin-top: 10px;
@@ -97,7 +97,7 @@
     flex-direction: column;
     display: flex;
     height: 30px;
-    width: 120px;
+    width: 150px;
     margin-bottom: 5px;
     padding: 5px 20px 0px;
     border: 1px solid #ccc;
@@ -121,15 +121,9 @@
   margin-left: 5px;
 }
 
-.number_market,
+#number_market,
 .size-v6 {
   flex: 1;
-}
-
-.size-v6,
-.number_market {
-  flex: 1;
-  /* grid-column: 1 / 2; */
 }
 
 .size-v6 {
@@ -146,7 +140,7 @@
   padding-top: 5px;
 }
 
-.number_market {
+#number_market {
   margin-top: 10px;
   padding-top: 5px;
   padding-right: 20px;
@@ -156,14 +150,10 @@
   float: right;
   flex-basis: 30%;
   text-align: left;
-}
-
-.number_market {
   font-size: 30px;
 }
 
 .grid-items {
-  height: 1700px;
   /* width: 700px; */
   flex-basis: 45%;
   border: 1px solid black;
@@ -175,19 +165,153 @@
   margin-bottom: 50px;
 }
 
-@media (min-width: 1600px) {
+.choose-search {
+  margin-top: 12px;
+  margin-left: 20px;
+  height: 85%;
+  margin-bottom: 12px;
+  float: left;
+  /* border: 1px solid blue; */
+}
+
+@media (min-width: 1900px) {
+  .grid-items {
+    height: 1500px;
+  }
   .div-item {
-    height: 200px;
+    height: 1400px;
     width: 70%;
     border: 1px solid black;
     margin: 50px 25px 25px 50px;
   }
 
-  .choose-search {
+  .choose-search-list {
     flex: 2;
-    height: 200px;
+    height: 700px;
     width: 300px;
     border: 1px solid yellow;
     margin: 50px 0 25px 25px;
   }
+}
+
+.col-items {
+  width: 500px;
+  height: 500px;
+  border: 1px solid black;
+}
+
+@media (max-width: 1900px) and (min-width: 200px) {
+  .grid-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .choose-search-list {
+    width: 90%;
+    margin-top: 30px;
+    margin-left: 5%;
+    height: 150px;
+    /* border: 1px solid black; */
+    justify-content: space-between;
+  }
+
+  .div-item {
+    height: 1000px;
+    width: 90%;
+    border: 1px solid black;
+    margin-top: 30px;
+    margin-left: 5%;
+    display: flex;
+  }
+
+  .choose-search {
+    width: 40%;
+    height: 85%;
+  }
+
+  .choose-type-product {
+    margin-top: 10px;
+    width: 200px;
+    height: 30px;
+    border: 2px solid black;
+    float: right;
+  }
+
+  .product-type-choose p,
+  .choose-type-product {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .product-type-choose {
+    margin-bottom: 10px;
+  }
+}
+
+.product-type-choose p {
+  float: left;
+  margin-left: 10px;
+}
+
+.product-type-choose {
+  height: 50px;
+}
+
+.list-search {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.services-product-type,
+.faciltites-product-type {
+  float: right;
+  text-align: center;
+  flex-direction: column;
+  background-color: white;
+  display: flex;
+  margin: 0px 0px;
+  height: 30px;
+  width: 100px;
+  margin-bottom: 5px;
+  padding: 5px 20px 0px;
+  border: 1px solid #ccc;
+}
+
+.services-product-type:hover,
+.faciltites-product-type:hover {
+  background-color: blue;
+  color: white;
+}
+
+@media (max-width: 1000px) {
+  .choose-search {
+    width: 70%;
+  }
+}
+
+.grid-container {
+  display: flex;
+  grid-gap: 5px; /* Optional: Adds spacing between grid cells */
+  grid-auto-flow: row; /*các phần tử bị tràn có thể nhảy xuống hàng tiếp theo*/
+  width: 99%;
+  flex-wrap: wrap;
+  overflow: auto;
+  text-align: center;
+  align-items: center; /* Căn các phần tử dọc vào giữa */
+}
+
+.item {
+  width: 400px;
+  height: 450px;
+  border: 1px solid red;
+  margin: 25px 25px 25px 25px;
+  white-space: wrap;
+  padding: 10px;
+}
+
+.image-item {
+  background-image: url("https://th.bing.com/th/id/OIP.mKSC_W7rMA14DMBg9Qs_1AHaFj?rs=1&pid=ImgDetMain");
+  height: 320px;
+  width: 400px;
 }
