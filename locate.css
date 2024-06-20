@@ -9,6 +9,7 @@
   border-radius: 5px;
   font-family: "Arial";
   font-weight: bold;
+  position: sticky;
 }
 
 .login_singup_icon {
@@ -18,7 +19,6 @@
   margin-right: 25px;
   margin-top: 8px;
   margin-bottom: 8px;
-  color: green;
 }
 
 @media (max-width: 720px) {
@@ -217,12 +217,16 @@
   }
 
   .div-item {
-    height: 1000px;
+    height: flex;
     width: 90%;
-    border: 1px solid black;
+    background-color: rgb(252, 236, 236);
     margin-top: 30px;
     margin-left: 5%;
     display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
+    text-align: center;
+    align-items: center; /* Căn các phần tử dọc vào giữa */
   }
 
   .choose-search {
@@ -278,6 +282,11 @@
   border: 1px solid #ccc;
 }
 
+.shopping_icon #shopping {
+  background-color: white;
+  border-color: white;
+}
+
 .services-product-type:hover,
 .faciltites-product-type:hover {
   background-color: blue;
@@ -303,15 +312,60 @@
 
 .item {
   width: 400px;
-  height: 450px;
-  border: 1px solid red;
+  height: 370px;
   margin: 25px 25px 25px 25px;
   white-space: wrap;
   padding: 10px;
 }
 
-.image-item {
-  background-image: url("https://th.bing.com/th/id/OIP.mKSC_W7rMA14DMBg9Qs_1AHaFj?rs=1&pid=ImgDetMain");
+.img-html {
   height: 320px;
   width: 400px;
+}
+
+.image-item {
+  /* background-image: url(""); */
+  height: 320px;
+  width: 400px;
+}
+
+.page-item {
+  margin: 0 auto;
+  width: 400px;
+  height: 30px;
+  background-color: blue;
+  float: middle;
+}
+
+.text-content {
+  margin-top: 20px;
+  float: left;
+  margin-left: 15px;
+  font: "Arial";
+  flex-basis: 70%;
+}
+
+.price {
+  flex-basis: 25%;
+  float: right;
+  margin-top: 20px;
+  margin-right: 15px;
+}
+
+.page-box {
+  width: 90%;
+  margin: 50px 5% 50px 5%;
+  border: 2px solid black;
+  height: 30px;
+}
+
+#page {
+  width: 30px;
+  height: 30px;
+}
+
+#prev-page,
+#next-page {
+  width: 100px;
+  height: 30px;
 }

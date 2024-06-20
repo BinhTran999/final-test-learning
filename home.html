@@ -3,8 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <link href="locate.css" rel="stylesheet" />
-    <script src="js-main-menu.js"></script>
-
     <title>Out Product - 63200296</title>
   </head>
 
@@ -13,74 +11,204 @@
       <a>Our product</a>
       <div class="login_singup_icon">
         <div class="shopping_icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            strokeWidth="{1.5}"
-            stroke="currentColor"
-            width="48"
-            height="48"
-            viewBox="0 0 26 26"
-            class="size-v6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-            />
-          </svg>
-          <span id="number_market">0</span>
+          <button id="shopping" onclick="listItem()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              strokeWidth="{1.5}"
+              stroke="currentColor"
+              width="48"
+              height="48"
+              viewBox="0 0 26 26"
+              class="size-v6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+              />
+            </svg>
+          </button>
+          <span id="number_market">21</span>
         </div>
+
         <div class="signup-login">
           <button class="sign-up">Sign up</button>
-          <button class="log-in" onclick="UserAction()">Log in</button>
+          <button class="log-in">Log in</button>
+        </div>
+      </div>
+    </div>
+    <div class="grid-items">
+      <div class="choose-search-list">
+        <div
+          id="myBox"
+          style="
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          "
+        >
+          Hello
+        </div>
+        <div class="choose-search">
+          <div class="product-type-choose">
+            <p>Product types:</p>
+            <div class="choose-type-product">
+              <button onclick="serviceClick()" class="services-product-type">
+                Services
+              </button>
+              <button
+                onclick="faciltitesClick()"
+                class="faciltites-product-type"
+              >
+                Facilities
+              </button>
+            </div>
+          </div>
+          <div class="list-search">
+            <p>List services</p>
+          </div>
+          <form>
+            <input
+              type="search"
+              class="search-text"
+              placeholder="Enter product name"
+              aria-label="Tìm kiếm"
+            />
+            <button type="submit">Search</button>
+          </form>
+        </div>
+        <div class="total-list"></div>
+      </div>
+      <div class="div-item">
+        <!-- <div class="grid-container"> -->
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price">2222222200</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="image-item">
+            <div class="img-html"></div>
+          </div>
+          <div class="text-price">
+            <div class="text-content">A</div>
+            <div class="price"></div>
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+      <div class="page-box">
+        <div class="page-item">
+          <button id="prev-page">Prev</button>
+          <button id="page">1</button>
+          <button id="page">2</button>
+          <button id="page">...</button>
+          <button id="page">7</button>
+          <button id="next-page">Next</button>
         </div>
       </div>
     </div>
   </body>
-  <div class="grid-items">
-    <div class="choose-search-list">
-      <div class="choose-search">
-        <div class="product-type-choose">
-          <p>Product types:</p>
-          <div class="choose-type-product">
-            <button class="services-product-type">Services</button>
-            <button class="faciltites-product-type">Facilities</button>
-          </div>
-        </div>
-        <div class="list-search">
-          <p>List services</p>
-        </div>
-        <form>
-          <input
-            type="search"
-            class="search-text"
-            placeholder="Enter product name"
-            aria-label="Tìm kiếm"
-          />
-          <button type="submit">Search</button>
-        </form>
-      </div>
-      <div class="total-list"></div>
-    </div>
-    <div class="div-item">
-      <div class="grid-container">
-        <div class="item">
-          <div class="image-item"></div>
-        </div>
-        <div class="item">Cell 2</div>
-        <div class="item">Cell 3</div>
-        <div class="item">Cell 4</div>
-        <div class="item">Cell 5</div>
-        <div class="item">Cell 6</div>
-        <div class="item">Cell 7</div>
-        <div class="item">Cell 8</div>
-        <div class="item">Cell 9</div>
-        <div class="item">Cell 10</div>
-        <div class="item">Cell 11</div>
-        <div class="item">Cell 12</div>
-      </div>
-      <div class="page-item"></div>
-    </div>
-  </div>
+  <script src="js-main-menu.js"></script>
 </html>
