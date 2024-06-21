@@ -11,7 +11,7 @@
       <a>Our product</a>
       <div class="login_singup_icon">
         <div class="shopping_icon">
-          <button id="shopping" onclick="listItem()">
+          <div id="shopping" onclick="listItem()">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -28,7 +28,7 @@
                 d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
               />
             </svg>
-          </button>
+          </div>
           <span id="number_market">21</span>
         </div>
 
@@ -46,12 +46,16 @@
             display: none;
             position: fixed;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            /* left: 50%; */
+            /* transform: translate(-50%, -50%); */
             background-color: white;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            top: 120px;
+            width: 500px;
+            height: 250px;
+            right: 10%;
           "
         >
           Hello
@@ -81,7 +85,7 @@
               placeholder="Enter product name"
               aria-label="Tìm kiếm"
             />
-            <button type="submit">Search</button>
+            <button type="submit" id="submit_search">Search</button>
           </form>
         </div>
         <div class="total-list"></div>
