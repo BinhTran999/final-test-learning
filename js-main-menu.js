@@ -7,9 +7,16 @@ const itemArr = [...document.querySelectorAll(".item .img-html")];
 const itemNameArr = [...document.querySelectorAll(".item .text-content")];
 const itemPriceArr = [...document.querySelectorAll(".item .price")];
 const shoppingItemList = document.getElementById("myBox");
+const paginationNumbers = document.getElementById("pagination-numbers");
+const paginatedList = document.getElementById("paginated-list");
+const nextButton = document.getElementById("next-button");
+const prevButton = document.getElementById("prev-button");
 
-const paginationContainer = document.getElementById("page-item");
-paginationContainer.innerHTML = "";
+const exitDetailItem = document.getElementById("exitAItem");
+
+const itemABox = document.getElementById("itemSopBox");
+
+console.log(typeof document.querySelectorAll(".item .img-html"));
 
 let currentPage = 1;
 let itemsPerPage = 12;
@@ -17,13 +24,33 @@ let itemsPerPage = 12;
 const modalBox = document.querySelectorAll(".item");
 console.log(modalBox);
 
-function clickShowItem() {
-  modalBox.forEach((item) => {
-    item.addEventListener("click", () => {
-      console.log(1234);
-    });
+// function clickShowItem() {
+//   modalBox.forEach((item, index) => {
+//     item.addEventListener("click", () => {
+//       showModal(index);
+//     });
+//   });
+// }
+
+// function showModal(index) {
+//   console.log(`Box ${index + 1} được click ${index + 1} lần`);
+// }
+
+let it = 0;
+
+const divItem = [...document.querySelectorAll(".item")];
+const isItemClicked = Array(itemArr.length).fill(false);
+
+itemArr.forEach((item, index) => {
+  item.addEventListener("click", (e) => {
+    console.log(itemNameArr[index].textContent);
+    itemSopBox.style.display = "block";
   });
-}
+});
+
+exitDetailItem.addEventListener("click", (e) => {
+  console.log(itemSopBox.style.display);
+});
 
 async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
   let retries = 0;
@@ -74,6 +101,7 @@ window.onload = async function () {
     itemNameArr[i].innerHTML = allData[i].name;
     itemPriceArr[i].innerHTML = allData[i].price + " VND";
   }
+  console.log(allData);
 };
 
 async function getEnermyData() {
@@ -120,6 +148,31 @@ async function serviceClick() {
     itemNameArr[i].innerHTML = services.data[i].name;
     itemPriceArr[i].innerHTML = services.data[i].price + " VND";
   }
+  // NEW
+  const numberPage = Math.cell(
+    Object.keys(services.data).length / itemsPerPage
+  );
+  let currentPageService = 1;
+  getPaginationNumbers();
+  setCurrentPage(1);
+
+  prevButton.addEventListener("click", () => {
+    setCurrentPage(currentPage - 1);
+  });
+
+  nextButton.addEventListener("click", () => {
+    setCurrentPage(currentPage + 1);
+  });
+
+  document.querySelectorAll(".pagination-number").forEach((button) => {
+    const pageIndex = Number(button.getAttribute("page-index"));
+
+    if (pageIndex) {
+      button.addEventListener("click", () => {
+        setCurrentPage(pageIndex);
+      });
+    }
+  });
 }
 
 async function faciltitesClick() {
@@ -141,17 +194,21 @@ async function faciltitesClick() {
   }
 }
 
-async function listItem() {
-  console.log(Object.keys(shoppingItemList.style.display).length);
-  console.log(shoppingItemList.style.display);
-  document.getElementById("shopping").addEventListener("click", function () {
-    if (shoppingItemList.style.display === "none") {
-      shoppingItemList.style.display = "block";
-    } else if (shoppingItemList.style.display === "block") {
-      shoppingItemList.style.display = "none";
-    }
-  });
-}
+// async function listItem() {
+//   document.getElementById("shopping").addEventListener("click", function () {
+//     shoppingItemList.style.display === "none"
+//       ? (shoppingItemList.style.display = "block")
+//       : (shoppingItemList.style.display = "none");
+//   });
+// }
+
+const divItemShopping = document.querySelector(".shopping_icon");
+
+divItemShopping.addEventListener("click", (e) => {
+  shoppingItemList.style.display === "none"
+    ? (shoppingItemList.style.display = "block")
+    : (shoppingItemList.style.display = "none");
+});
 
 function renderPagination() {
   console.log(122);

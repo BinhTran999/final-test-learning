@@ -212,11 +212,57 @@
           </div>
         </div>
 
+        <div
+          id="itemSopBox"
+          style="
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 300px;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+          "
+        >
+          <div class="endButton">
+            <button id="exitAItem">x</button>
+          </div>
+          <div class="entityItem">
+            <div class="imageAItem"></div>
+          </div>
+        </div>
+
         <!-- </div> -->
       </div>
       <div class="page-box">
         <div id="page-item">
-          <div id="pagination" class="pagination-container"></div>
+          <nav
+            class="pagination-container"
+            data-current-page="1"
+            aria-live="polite"
+          >
+            <button
+              class="pagination-button"
+              id="prev-button"
+              aria-label="Previous page"
+              title="Previous page"
+            >
+              &lt;
+            </button>
+            <div id="pagination-numbers"></div>
+            <button
+              class="pagination-button"
+              id="next-button"
+              aria-label="Next page"
+              title="Next page"
+            >
+              &gt;
+            </button>
+          </nav>
         </div>
       </div>
     </div>

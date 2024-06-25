@@ -1,0 +1,298 @@
+{name: 'Software Publishing Houses', description: 'Facilities where software is produced and distributed.', image: 'https://picsum.photos/200/200?random=89', price: 4796359, type: 'facility', …}
+1
+: 
+{name: 'Cybersecurity Training', description: 'Training employees in cybersecurity best practices.', image: 'https://picsum.photos/200/200?random=38', price: 2886937, type: 'service', …}
+2
+: 
+{name: 'Artificial Intelligence Solutions', description: 'Implementing AI technologies for business automation.', image: 'https://picsum.photos/200/200?random=34', price: 783939, type: 'service', …}
+3
+: 
+{name: 'IT Project Management', description: 'Managing IT projects to ensure timely delivery.', image: 'https://picsum.photos/200/200?random=31', price: 4874389, type: 'service', …}
+4
+: 
+{name: 'Cryptocurrency Mining Farms', description: 'Facilities equipped with powerful computers to mine cryptocurrencies.', image: 'https://picsum.photos/200/200?random=77', price: 1661846, type: 'facility', …}
+5
+: 
+{name: 'ERP Solutions', description: 'Implementing Enterprise Resource Planning systems for better resource management.', image: 'https://picsum.photos/200/200?random=19', price: 3623836, type: 'service', …}
+6
+: 
+{name: 'Software Development', description: 'Custom software solutions for specific business needs.', image: 'https://picsum.photos/200/200?random=6', price: 2835091, type: 'service', …}
+7
+: 
+{name: 'Biometric Security Testing Facilities', description: 'Centers focused on developing and testing biometric security systems.', image: 'https://picsum.photos/200/200?random=68', price: 3470613, type: 'facility', …}
+8
+: 
+{name: 'Content Management System Services', description: 'Implementing and managing CMS platforms.', image: 'https://picsum.photos/200/200?random=46', price: 3127323, type: 'service', …}
+9
+: 
+{name: 'Blockchain Development Studios', description: 'Specialized centers for developing and testing blockchain technologies.', image: 'https://picsum.photos/200/200?random=63', price: 2349447, type: 'facility', …}
+10
+: 
+{name: 'Digital Conversion Labs', description: 'Centers dedicated to converting analog data into digital formats.', image: 'https://picsum.photos/200/200?random=90', price: 442122, type: 'facility', …}
+11
+: 
+{name: 'Data Analytics Institutes', description: 'Centers focused on big data and analytics technologies.', image: 'https://picsum.photos/200/200?random=76', price: 2568554, type: 'facility', …}
+12
+: 
+{name: 'Undersea Cable Landing Stations', description: 'Points where undersea communication cables come ashore.', image: 'https://picsum.photos/200/200?random=95', price: 1695768, type: 'facility', …}
+13
+: 
+{name: 'Software Development Centers', description: 'Offices where software developers create, test, and maintain software applications.', image: 'https://picsum.photos/200/200?random=57', price: 4545032, type: 'facility', …}
+14
+: 
+{name: 'Tech Startup Consulting', description: 'Advising tech startups on best IT practices.', image: 'https://picsum.photos/200/200?random=48', price: 1986001, type: 'service', …}
+15
+: 
+{name: 'Server Farms', description: 'Massive rooms filled with servers that provide sig…ant processing power for various computing tasks.', image: 'https://picsum.photos/200/200?random=53', price: 2256065, type: 'facility', …}
+16
+: 
+{name: 'Tech Policy Think Tanks', description: 'Organizations that research and advocate for policies affecting technology.', image: 'https://picsum.photos/200/200?random=99', price: 2728823, type: 'facility', …}
+17
+: 
+{name: 'IT Compliance Audit Offices', description: 'Facilities where IT compliance with regulations is monitored and enforced.', image: 'https://picsum.photos/200/200?random=80', price: 4134342, type: 'facility', …}
+18
+: 
+{name: 'Cybersecurity Command Centers', description: 'High-security facilities focused on protecting information systems from cyber threats.', image: 'https://picsum.photos/200/200?random=59', price: 2038969, type: 'facility', …}
+19
+: 
+{name: 'Wireless Networking', description: 'Setting up and maintaining wireless communication systems.', image: 'https://picsum.photos/200/200?random=22', price: 658547, type: 'service', …}
+20
+: 
+{name: 'Digital Transformation Consulting', description: 'Helping businesses adopt digital technologies.', image: 'https://picsum.photos/200/200?random=37', price: 694030, type: 'service', …}
+21
+: 
+{name: 'Cloud Migration Services', description: 'Helping businesses move their operations to the cloud.', image: 'https://picsum.photos/200/200?random=24', price: 3092291, type: 'service', …}
+22
+: 
+{name: 'Smart City Test Beds', description: 'Urban areas rigged with sensors and devices to prototype smart city technologies.', image: 'https://picsum.photos/200/200?random=84', price: 3748063, type: 'facility', …}
+23
+: 
+{name: 'Remote IT Services', description: 'Providing IT support remotely.', image: 'https://picsum.photos/200/200?random=28', price: 2512024, type: 'service', …}
+24
+: 
+{name: 'IT Consulting', description: 'Expert advice and management planning for IT infrastructure.', image: 'https://picsum.photos/200/200?random=12', price: 4752401, type: 'service', …}
+25
+: 
+{name: 'Data Analytics Services', description: 'Analyzing data to provide actionable insights.', image: 'https://picsum.photos/200/200?random=16', price: 4874655, type: 'service', …}
+26
+: 
+{name: 'Hardware Installation', description: 'Setting up new hardware systems and ensuring they are operational.', image: 'https://picsum.photos/200/200?random=13', price: 3080280, type: 'service', …}
+27
+: 
+{name: 'Server Management', description: 'Managing and maintaining servers.', image: 'https://picsum.photos/200/200?random=44', price: 3109441, type: 'service', …}
+28
+: 
+{name: 'Graphic Design Services', description: 'Creating visual content for digital and print media.', image: 'https://picsum.photos/200/200?random=49', price: 764670, type: 'service', …}
+29
+: 
+{name: 'Tech Support Centers', description: 'Facilities that provide technical support for products and services.', image: 'https://picsum.photos/200/200?random=87', price: 4112641, type: 'facility', …}
+30
+: 
+{name: 'Network Operations Centers (NOC)', description: 'Dedicated spaces where IT technicians monitor, man…networks ensuring optimal performance and uptime.', image: 'https://picsum.photos/200/200?random=52', price: 2311349, type: 'facility', …}
+31
+: 
+{name: 'Data Backup and Recovery', description: 'Ensuring data is safely backed up and can be recovered after a loss.', image: 'https://picsum.photos/200/200?random=2', price: 4720504, type: 'service', …}
+32
+: 
+{name: 'Tech Incubators', description: 'Facilities that support startups with technology resources and mentorship.', image: 'https://picsum.photos/200/200?random=78', price: 4763428, type: 'facility', …}
+33
+: 
+{name: 'Data Centers', description: 'Facilities that house critical data and IT infrast…ing data storage, backup, and recovery solutions.', image: 'https://picsum.photos/200/200?random=51', price: 245722, type: 'facility', …}
+34
+: 
+{name: 'CRM Solutions', description: 'Implementing Customer Relationship Management systems.', image: 'https://picsum.photos/200/200?random=20', price: 518433, type: 'service', …}
+35
+: 
+{name: 'Cybersecurity Consulting', description: 'Providing expert advice on protecting systems against cyber threats.', image: 'https://picsum.photos/200/200?random=4', price: 569447, type: 'service', …}
+36
+: 
+{name: 'Video Conferencing Solutions', description: 'Implementing and managing video communication systems.', image: 'https://picsum.photos/200/200?random=50', price: 3873031, type: 'service', …}
+37
+: 
+{name: 'System Integration', description: 'Ensuring all IT systems work together seamlessly.', image: 'https://picsum.photos/200/200?random=14', price: 4336323, type: 'service', …}
+38
+: 
+{name: 'Penetration Testing', description: 'Testing systems for vulnerabilities.', image: 'https://picsum.photos/200/200?random=39', price: 4708310, type: 'service', …}
+39
+: 
+{name: 'Internet Service Provider (ISP) Facilities', description: 'Locations that provide internet access to consumers and businesses.', image: 'https://picsum.photos/200/200?random=91', price: 2413130, type: 'facility', …}
+40
+: 
+{name: 'Email Hosting Services', description: 'Managing email servers and ensuring reliable email communication.', image: 'https://picsum.photos/200/200?random=15', price: 2250514, type: 'service', …}
+41
+: 
+{name: 'IT Outsourcing', description: 'Outsourcing IT tasks to external providers.', image: 'https://picsum.photos/200/200?random=45', price: 3842156, type: 'service', …}
+42
+: 
+{name: 'Virtualization Services', description: 'Creating virtual versions of devices and resources for efficiency.', image: 'https://picsum.photos/200/200?random=25', price: 5037204, type: 'service', …}
+43
+: 
+{name: 'Network Setup and Maintenance', description: 'Installing and maintaining network systems.', image: 'https://picsum.photos/200/200?random=21', price: 751695, type: 'service', …}
+44
+: 
+{name: 'Simulation Centers', description: 'Facilities that use simulations for training, research, or entertainment.', image: 'https://picsum.photos/200/200?random=86', price: 236693, type: 'facility', …}
+45
+: 
+{name: 'Digital Archiving Centers', description: 'Facilities dedicated to the preservation of digital documents and media.', image: 'https://picsum.photos/200/200?random=97', price: 172554, type: 'facility', …}
+46
+: 
+{name: 'Web Development', description: 'Designing and developing websites.', image: 'https://picsum.photos/200/200?random=8', price: 138915, type: 'service', …}
+47
+: 
+{name: 'Managed IT Services', description: 'Outsourcing business administration and management of IT systems.', image: 'https://picsum.photos/200/200?random=5', price: 1788037, type: 'service', …}
+48
+: 
+{name: 'Database Management', description: 'Administration of databases to ensure integrity and performance.', image: 'https://picsum.photos/200/200?random=9', price: 3438329, type: 'service', …}
+49
+: 
+{name: 'Optical Network Labs', description: 'Facilities focused on fiber-optic technology and networks.', image: 'https://picsum.photos/200/200?random=93', price: 4952155, type: 'facility', …}
+50
+: 
+{name: 'Incident Response Services', description: 'Responding to and mitigating IT security incidents.', image: 'https://picsum.photos/200/200?random=40', price: 2190404, type: 'service', …}
+51
+: 
+{name: 'Disaster Recovery Planning', description: 'Preparing for and recovering from disasters.', image: 'https://picsum.photos/200/200?random=27', price: 2410960, type: 'service', …}
+52
+: 
+{name: 'Digital Media Studios', description: 'Facilities for the creation and editing of digital media content.', image: 'https://picsum.photos/200/200?random=73', price: 2621100, type: 'facility', …}
+53
+: 
+{name: 'Network Security', description: 'Protecting data during transfer across networks.', image: 'https://picsum.photos/200/200?random=3', price: 2008876, type: 'service', …}
+54
+: 
+{name: 'High-Performance Computing Centers', description: 'Facilities equipped with supercomputers to perform complex calculations.', image: 'https://picsum.photos/200/200?random=71', price: 2075708, type: 'facility', …}
+55
+: 
+{name: 'Disaster Recovery Sites', description: 'Secondary facilities that replicate data and appli…ensure business continuity in case of a disaster.', image: 'https://picsum.photos/200/200?random=55', price: 3266077, type: 'facility', …}
+56
+: 
+{name: 'E-commerce Solutions', description: 'Developing online stores and managing e-commerce platforms.', image: 'https://picsum.photos/200/200?random=18', price: 3260813, type: 'service', …}
+57
+: 
+{name: 'Technology Research and Development', description: 'Innovating new technologies.', image: 'https://picsum.photos/200/200?random=41', price: 2559902, type: 'service', …}
+58
+: 
+{name: 'Mobile App Development', description: 'Creating applications for mobile devices across various platforms.', image: 'https://picsum.photos/200/200?random=7', price: 3648077, type: 'service', …}
+59
+: 
+{name: 'Blockchain Services', description: 'Developing blockchain technology solutions.', image: 'https://picsum.photos/200/200?random=36', price: 1972524, type: 'service', …}
+60
+: 
+{name: 'SEO Services', description: 'Optimizing web content to rank higher in search engine results.', image: 'https://picsum.photos/200/200?random=17', price: 1089365, type: 'service', …}
+61
+: 
+{name: 'Digital Forensics Labs', description: 'Centers for investigating cybercrimes and analyzing digital evidence.', image: 'https://picsum.photos/200/200?random=81', price: 143818, type: 'facility', …}
+62
+: 
+{name: 'Augmented Reality Labs', description: 'Facilities dedicated to the creation and refinement of AR applications.', image: 'https://picsum.photos/200/200?random=66', price: 1129941, type: 'facility', …}
+63
+: 
+{name: 'IoT Testing Centers', description: 'Facilities for testing and developing Internet of Things (IoT) devices and systems.', image: 'https://picsum.photos/200/200?random=67', price: 348149, type: 'facility', …}
+64
+: 
+{name: 'Research and Development Labs', description: 'Facilities dedicated to innovation and development in information technology.', image: 'https://picsum.photos/200/200?random=56', price: 2560794, type: 'facility', …}
+65
+: 
+{name: 'IT Training Centers', description: 'Facilities that provide educational services for IT professionals to learn and advance their skills.', image: 'https://picsum.photos/200/200?random=58', price: 1238636, type: 'facility', …}
+66
+: 
+{name: 'IT Training and Education', description: 'Educating staff on IT systems and software.', image: 'https://picsum.photos/200/200?random=29', price: 3210820, type: 'service', …}
+67
+: 
+{name: 'Geographic Information Systems (GIS) Labs', description: 'Facilities for capturing, storing, analyzing, and managing geographic data.', image: 'https://picsum.photos/200/200?random=96', price: 1089835, type: 'facility', …}
+68
+: 
+{name: 'Artificial Intelligence Innovation Labs', description: 'Facilities focused on the advancement and application of AI technologies.', image: 'https://picsum.photos/200/200?random=64', price: 2800937, type: 'facility', …}
+69
+: 
+{name: 'Tech Accelerators', description: 'Similar to incubators, these facilities focus on speeding up the growth of early-stage companies.', image: 'https://picsum.photos/200/200?random=79', price: 1241239, type: 'facility', …}
+70
+: 
+{name: 'Internet Exchange Points (IXPs)', description: 'Physical infrastructure through which Internet ser…exchange Internet traffic between their networks.', image: 'https://picsum.photos/200/200?random=61', price: 3010542, type: 'facility', …}
+71
+: 
+{name: '3D Printing Labs', description: 'Facilities equipped with 3D printers for prototyping and manufacturing.', image: 'https://picsum.photos/200/200?random=83', price: 214885, type: 'facility', …}
+72
+: 
+{name: 'IoT Services', description: 'Integrating and managing Internet of Things devices.', image: 'https://picsum.photos/200/200?random=35', price: 2262481, type: 'service', …}
+73
+: 
+{name: 'Telecommunication Hubs', description: 'Centers that manage and control the telecommunication infrastructure.', image: 'https://picsum.photos/200/200?random=60', price: 3804232, type: 'facility', …}
+74
+: 
+{name: 'IT Equipment Manufacturing Plants', description: 'Facilities where hardware components and devices are produced.', image: 'https://picsum.photos/200/200?random=88', price: 852848, type: 'facility', …}
+75
+: 
+{name: 'IT Compliance and Risk Management', description: 'Ensuring IT practices comply with laws and regulations.', image: 'https://picsum.photos/200/200?random=33', price: 4610850, type: 'service', …}
+76
+: 
+{name: 'Gaming Development Studios', description: 'Facilities where video games are developed and tested.', image: 'https://picsum.photos/200/200?random=85', price: 4681667, type: 'facility', …}
+77
+: 
+{name: 'Quantum Computing Labs', description: 'Facilities dedicated to the research and development of quantum computing technologies.', image: 'https://picsum.photos/200/200?random=62', price: 4796614, type: 'facility', …}
+78
+: 
+{name: 'Satellite Communication Centers', description: 'Facilities that manage and control satellite communication systems.', image: 'https://picsum.photos/200/200?random=94', price: 667415, type: 'facility', …}
+79
+: 
+{name: 'IT Support Services', description: 'Offering support for various IT-related issues.', image: 'https://picsum.photos/200/200?random=10', price: 1355787, type: 'service', …}
+80
+: 
+{name: 'Software Licensing and Management', description: 'Managing software licenses for compliance.', image: 'https://picsum.photos/200/200?random=30', price: 3810285, type: 'service', …}
+81
+: 
+{name: 'Document Management', description: 'Organizing and storing documents digitally.', image: 'https://picsum.photos/200/200?random=32', price: 4795183, type: 'service', …}
+82
+: 
+{name: 'Cloud Storage Facilities', description: 'Facilities that support cloud storage services, al…ata to be stored, managed, and accessed remotely.', image: 'https://picsum.photos/200/200?random=54', price: 1461335, type: 'facility', …}
+83
+: 
+{name: 'E-commerce Testing Centers', description: 'Facilities where e-commerce technologies and strategies are developed and tested.', image: 'https://picsum.photos/200/200?random=74', price: 3417409, type: 'facility', …}
+84
+: 
+{name: 'Virtual Reality Studios', description: 'Spaces equipped with advanced VR technology for development and testing.', image: 'https://picsum.photos/200/200?random=65', price: 2395583, type: 'facility', …}
+85
+: 
+{name: 'User Experience (UX) Labs', description: 'Facilities designed to test and improve the user experience of digital products.', image: 'https://picsum.photos/200/200?random=75', price: 872265, type: 'facility', …}
+86
+: 
+{name: 'Data Encryption', description: 'Encrypting data to protect sensitive information.', image: 'https://picsum.photos/200/200?random=23', price: 1315876, type: 'service', …}
+87
+: 
+{name: 'Cloud Computing Research Facilities', description: 'Centers focused on the development and improvement of cloud computing technologies.', image: 'https://picsum.photos/200/200?random=70', price: 2465238, type: 'facility', …}
+88
+: 
+{name: 'Mobile Computing Labs', description: 'Facilities dedicated to the development and testing of mobile technologies and applications.', image: 'https://picsum.photos/200/200?random=69', price: 3166120, type: 'facility', …}
+89
+: 
+{name: 'Privacy Management', description: 'Managing data privacy and protection.', image: 'https://picsum.photos/200/200?random=47', price: 4019869, type: 'service', …}
+90
+: 
+{name: 'User Interface and User Experience Design', description: 'Designing interfaces and experiences for users.', image: 'https://picsum.photos/200/200?random=42', price: 3457886, type: 'service', …}
+91
+: 
+{name: 'IT Auditing', description: 'Evaluating the effectiveness and compliance of IT systems.', image: 'https://picsum.photos/200/200?random=26', price: 527407, type: 'service', …}
+92
+: 
+{name: 'Information Security Training Centers', description: 'Facilities that specialize in training for information security and cybersecurity.', image: 'https://picsum.photos/200/200?random=100', price: 1353458, type: 'facility', …}
+93
+: 
+{name: 'Software Testing Labs', description: 'Dedicated spaces for rigorous testing of new software to ensure quality and performance.', image: 'https://picsum.photos/200/200?random=72', price: 4204149, type: 'facility', …}
+94
+: 
+{name: 'IT Legal Consultancy Offices', description: 'Facilities providing legal advice on IT-related matters.', image: 'https://picsum.photos/200/200?random=98', price: 4146354, type: 'facility', …}
+95
+: 
+{name: 'Robotics Labs', description: 'Facilities dedicated to the design and testing of robotic systems.', image: 'https://picsum.photos/200/200?random=82', price: 1742423, type: 'facility', …}
+96
+: 
+{name: 'Wireless Network Test Facilities', description: 'Centers for testing and optimizing wireless communication technologies.', image: 'https://picsum.photos/200/200?random=92', price: 4230425, type: 'facility', …}
+97
+: 
+{name: 'Cloud Computing Services', description: 'Offering scalable cloud storage and computing solutions.', image: 'https://picsum.photos/200/200?random=1', price: 3435296, type: 'service', …}
+98
+: 
+{name: 'Data Center Services', description: 'Managing and maintaining data centers.', image: 'https://picsum.photos/200/200?random=43', price: 899780, type: 'service', …}
+99
+: 
+{name: 'VoIP Services', description: 'Implementing Voice over Internet Protocol solutions for communication.', image: 'https://picsum.photos/200/200?random=11', price: 1371405, type: 'service', …}

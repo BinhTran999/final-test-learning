@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
 .top {
   display: flex;
   /* justify-content: space-between; */
@@ -12,6 +14,7 @@
   position: sticky;
   position: fixed;
   margin-top: -160px;
+  background-color: white;
 }
 
 .login_singup_icon {
@@ -340,18 +343,33 @@
 }
 
 .text-content {
-  margin-top: 20px;
+  margin-top: 15px;
+  text-align: left;
   float: left;
-  margin-left: 15px;
   font: "Arial";
-  flex-basis: 70%;
+  width: 60%;
 }
 
 .price {
-  flex-basis: 25%;
+  width: 30%;
   float: right;
-  margin-top: 20px;
-  margin-right: 15px;
+  margin-top: 15px;
+}
+
+.endButton {
+  height: 20px;
+  border: 2px solid white;
+}
+
+.entityItem {
+  margin: 30px 0 30px 0;
+  height: 250px;
+  width: 100%;
+  border: 2px solid black;
+}
+
+#exitAItem {
+  float: right;
 }
 
 .page-box {
@@ -394,44 +412,27 @@
 
 .pagination-container {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  position: absolute;
+  bottom: 0;
+  justify-content: center;
 }
-
-.pagination {
-  display: inline-flex;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.pagination a {
-  color: black;
-  padding: 8px 16px;
-  text-decoration: none;
-  border: 1px solid #ddd;
-  border-right: none;
-  background-color: #f1f1f1;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.pagination a:first-child {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-}
-
-.pagination a:last-child {
-  border-right: 1px solid #ddd;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.pagination a.active {
-  background-color: #4caf50;
-  color: white;
+.pagination-number,
+.pagination-button {
+  font-size: 1.1rem;
+  background-color: transparent;
   border: none;
+  margin: 0.25rem 0.25rem;
+  cursor: pointer;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 0.2rem;
 }
-
-.pagination a:hover:not(.active) {
-  background-color: #ddd;
+.pagination-number:hover,
+.pagination-button:not(.disabled):hover {
+  background: #fff;
+}
+.pagination-number.active {
+  color: #fff;
+  background: #0085b6;
 }
