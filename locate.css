@@ -354,7 +354,7 @@
 
 #page-item {
   margin: 0 auto;
-  width: 400px;
+  width: 700px;
   height: 30px;
   float: middle;
 }
@@ -407,6 +407,13 @@
 #imageInItem #ImageAItem {
   width: 250px;
   height: 220px;
+}
+
+#resultBox {
+  float: right;
+  width: 720px;
+  height: flex;
+  margin: 35px 15px 15px 15px;
 }
 
 #informationItemBox {
@@ -536,4 +543,34 @@
   height: 750px;
   /* border: 1px solid black; */
   justify-content: space-between;
+}
+
+#prev-page,
+#page-1,
+#page-2,
+#page-3,
+#next-page {
+  margin-top: 15px;
+  margin-right: 10px;
+  float: left;
+  text-align: center;
+  flex-direction: column;
+  display: flex;
+  height: 30px;
+  margin-bottom: 5px;
+  padding: 5px 20px 0px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+#page-1,
+#page-2,
+#page-3 {
+  width: 60px;
+}
+
+#prev-page,
+#next-page {
+  width: 150px;
 }

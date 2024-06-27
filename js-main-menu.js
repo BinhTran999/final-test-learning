@@ -18,6 +18,13 @@ const exitDetailItem = document.querySelector("#exitAItem");
 const amountAllItemShop = document.querySelector("#amout");
 const closeItemList = document.querySelector("#cancel");
 const submitItem = document.querySelector("#submit");
+// PAGE
+const prevPage = document.querySelector("#prev-page");
+const onePage = document.querySelector("#page-1");
+const twoPage = document.querySelector("#page-2");
+const thirdPage = document.querySelector("#page-3");
+const nextPage = document.querySelector("#next-page");
+//
 const changeToSuccessScreen = document.querySelector("#changeToConfirmWindow");
 
 const itemABox = document.getElementById("itemSopBox");
@@ -25,6 +32,9 @@ const confirmBox = document.getElementById("itemConfirmBox");
 const exitConfirmBox = document.getElementById("exitConfirmBox");
 
 console.log(typeof document.querySelectorAll(".item .img-html"));
+
+const searchInput = document.querySelector("#search-text");
+const searchButton = document.querySelector("#submit_search");
 
 let currentPage = 1;
 let itemsPerPage = 12;
@@ -38,6 +48,12 @@ const clickAdd = document.querySelector("#add-to-cart");
 let CacheData = {};
 let CacheArray = [];
 var cacheAr = null;
+let allData;
+let numberPage;
+const configPage = {
+  pageSize: 12,
+  currentPage: 1,
+};
 
 function initNewArrItem(index) {
   return [
@@ -112,7 +128,8 @@ window.onload = async function () {
   allData = [];
   const data = await funcRequest("http://10.63.161.172:3001/api/get-product");
   console.log(data.data.total / Object.keys(data.data.items).length + 1);
-
+  numberPage = Math.round(data.data.total / configPage.pageSize) + 1;
+  console.log(numberPage);
   for (
     let i = 0;
     i < data.data.total / Object.keys(data.data.items).length + 1;
@@ -122,7 +139,6 @@ window.onload = async function () {
     data_i = await funcRequest(url_i);
     allData.push(...data_i.data.items);
   }
-
   for (let i = 0; i < itemsPerPage; i++) {
     let bimg = "url('" + allData[i].image + "')";
     itemArr[i].style.backgroundImage = bimg;
@@ -132,7 +148,7 @@ window.onload = async function () {
     itemDescriptionArr[i].innerHTML = allData[i].description;
     itemTypeArr[i].innerHTML = allData[i].type;
   }
-  console.log(allData);
+  data = allData;
 };
 
 async function getEnermyData() {
@@ -171,42 +187,191 @@ async function serviceClick() {
       services.data.push(data[i]);
     }
   }
-  console.log(services.data);
-  for (let i = 0; i < Object.keys(services.data).length; i++) {
-    let bimg = "url('" + services.data[i].image + "')";
+  let currentNumberPage = 1;
+  let nPage =
+    Math.round(Object.keys(services.data).length / configPage.pageSize) + 1;
+  changeStartPage();
+  dataPage(currentNumberPage, services.data);
+  thirdPage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 1) {
+      onePage.style.display = "block";
+      prevPage.style.display = "block";
+    }
+
+    if (currentNumberPage === nPage - 1) {
+      thirdPage.style.display = "none";
+      nextPage.style.display = "none";
+    }
+    currentNumberPage++;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, services.data);
+  });
+
+  nextPage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 1) {
+      onePage.style.display = "block";
+      prevPage.style.display = "block";
+    }
+
+    if (currentNumberPage === nPage - 1) {
+      thirdPage.style.display = "none";
+      nextPage.style.display = "none";
+    }
+    currentNumberPage++;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, services.data);
+  });
+
+  onePage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 2) {
+      onePage.style.display = "none";
+      prevPage.style.display = "none";
+    }
+
+    if (currentNumberPage === nPage) {
+      thirdPage.style.display = "block";
+      nextPage.style.display = "block";
+    }
+    currentNumberPage--;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, services.data);
+  });
+
+  prevPage.addEventListener("click", (e) => {
+    console.log();
+    // console.log(numberPage);
+    if (currentNumberPage === 2) {
+      onePage.style.display = "none";
+      prevPage.style.display = "none";
+    }
+
+    if (currentNumberPage === nPage) {
+      thirdPage.style.display = "block";
+      nextPage.style.display = "block";
+    }
+    currentNumberPage--;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, services.data);
+  });
+
+  // for (let i = 0; i < Object.keys(services.data).length - 1; i++) {
+  //   let bimg = "url('" + services.data[i].image + "')";
+  //   itemArr[i].style.backgroundImage = bimg;
+  //   itemArr[i].style.backgroundSize = "100% 100%";
+  //   itemNameArr[i].innerHTML = services.data[i].name;
+  //   itemPriceArr[i].innerHTML = services.data[i].price + " VND";
+  //   itemDescriptionArr[i].innerHTML = services.data[i].description;
+  //   itemTypeArr[i].innerHTML = allData[i].type;
+  // }
+}
+
+function changeStartPage() {
+  prevPage.style.display = "none";
+  onePage.style.display = "none";
+  twoPage.style.display = "block";
+  thirdPage.style.display = "block";
+  nextPage.style.display = "block";
+  twoPage.textContent = 1;
+  thirdPage.textContent = 2;
+}
+
+thirdPage.addEventListener("click", (e) => {
+  // console.log(numberPage);
+  if (currentPage === 1) {
+    onePage.style.display = "block";
+    prevPage.style.display = "block";
+  }
+
+  if (currentPage === numberPage - 1) {
+    thirdPage.style.display = "none";
+    nextPage.style.display = "none";
+  }
+  currentPage++;
+  onePage.textContent = currentPage - 1;
+  twoPage.textContent = currentPage;
+  thirdPage.textContent = currentPage + 1;
+  dataPage(currentPage, allData);
+});
+
+function dataPage(currentPage, data) {
+  const startIndex = (currentPage - 1) * configPage.pageSize;
+  for (let i = 0; i < configPage.pageSize; i++) {
+    let bimg = "url('" + data[startIndex + i].image + "')";
     itemArr[i].style.backgroundImage = bimg;
     itemArr[i].style.backgroundSize = "100% 100%";
-    itemNameArr[i].innerHTML = services.data[i].name;
-    itemPriceArr[i].innerHTML = services.data[i].price + " VND";
-    itemDescriptionArr[i].innerHTML = services.data[i].description;
-    itemTypeArr[i].innerHTML = allData[i].type;
+    itemNameArr[i].innerHTML = data[startIndex + i].name;
+    itemPriceArr[i].innerHTML = data[startIndex + i].price + " VND";
+    itemDescriptionArr[i].innerHTML = data[startIndex + i].description;
+    itemTypeArr[i].innerHTML = data[startIndex + i].type;
+    console.log(itemTypeArr[i].innerHTML);
   }
-  // NEW
-  const numberPage = Math.cell(
-    Object.keys(services.data).length / itemsPerPage
-  );
-  let currentPageService = 1;
-  getPaginationNumbers();
-  setCurrentPage(1);
-
-  prevButton.addEventListener("click", () => {
-    setCurrentPage(currentPage - 1);
-  });
-
-  nextButton.addEventListener("click", () => {
-    setCurrentPage(currentPage + 1);
-  });
-
-  document.querySelectorAll(".pagination-number").forEach((button) => {
-    const pageIndex = Number(button.getAttribute("page-index"));
-
-    if (pageIndex) {
-      button.addEventListener("click", () => {
-        setCurrentPage(pageIndex);
-      });
-    }
-  });
 }
+
+nextPage.addEventListener("click", (e) => {
+  // console.log(numberPage);
+  if (currentPage === 1) {
+    onePage.style.display = "block";
+    prevPage.style.display = "block";
+  }
+
+  if (currentPage === numberPage - 1) {
+    thirdPage.style.display = "none";
+    nextPage.style.display = "none";
+  }
+  currentPage++;
+  onePage.textContent = currentPage - 1;
+  twoPage.textContent = currentPage;
+  thirdPage.textContent = currentPage + 1;
+  dataPage(currentPage, allData);
+});
+
+onePage.addEventListener("click", (e) => {
+  // console.log(numberPage);
+  if (currentPage === 2) {
+    onePage.style.display = "none";
+    prevPage.style.display = "none";
+  }
+
+  if (currentPage === numberPage) {
+    thirdPage.style.display = "block";
+    nextPage.style.display = "block";
+  }
+  currentPage--;
+  onePage.textContent = currentPage - 1;
+  twoPage.textContent = currentPage;
+  thirdPage.textContent = currentPage + 1;
+  dataPage(currentPage, allData);
+});
+
+prevPage.addEventListener("click", (e) => {
+  console.log();
+  // console.log(numberPage);
+  if (currentPage === 2) {
+    onePage.style.display = "none";
+    prevPage.style.display = "none";
+  }
+
+  if (currentPage === numberPage) {
+    thirdPage.style.display = "block";
+    nextPage.style.display = "block";
+  }
+  currentPage--;
+  onePage.textContent = currentPage - 1;
+  twoPage.textContent = currentPage;
+  thirdPage.textContent = currentPage + 1;
+  dataPage(currentPage, allData);
+});
 
 async function faciltitesClick() {
   let faciltites = {};
@@ -218,15 +383,84 @@ async function faciltitesClick() {
       faciltites.data.push(data[i]);
     }
   }
-  for (let i = 0; i < Object.keys(faciltites.data).length; i++) {
-    let bimg = "url('" + faciltites.data[i].image + "')";
-    itemArr[i].style.backgroundImage = bimg;
-    itemArr[i].style.backgroundSize = "100% 100%";
-    itemNameArr[i].innerHTML = faciltites.data[i].name;
-    itemPriceArr[i].innerHTML = faciltites.data[i].price + " VND";
-    itemDescriptionArr[i].innerHTML = faciltites.data[i].description;
-    itemTypeArr[i].innerHTML = allData[i].type;
-  }
+  let currentNumberPage = 1;
+  let nPage =
+    Math.round(Object.keys(faciltites.data).length / configPage.pageSize) + 1;
+  changeStartPage();
+  console.log(faciltites.data);
+  dataPage(currentNumberPage, faciltites.data);
+  thirdPage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 1) {
+      onePage.style.display = "block";
+      prevPage.style.display = "block";
+    }
+
+    if (currentNumberPage === nPage - 1) {
+      thirdPage.style.display = "none";
+      nextPage.style.display = "none";
+    }
+    currentNumberPage++;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, faciltites.data);
+  });
+
+  nextPage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 1) {
+      onePage.style.display = "block";
+      prevPage.style.display = "block";
+    }
+
+    if (currentNumberPage === nPage - 1) {
+      thirdPage.style.display = "none";
+      nextPage.style.display = "none";
+    }
+    currentNumberPage++;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, faciltites.data);
+  });
+
+  onePage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 2) {
+      onePage.style.display = "none";
+      prevPage.style.display = "none";
+    }
+
+    if (currentNumberPage === nPage) {
+      thirdPage.style.display = "block";
+      nextPage.style.display = "block";
+    }
+    currentNumberPage--;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, faciltites.data);
+  });
+
+  prevPage.addEventListener("click", (e) => {
+    console.log();
+    // console.log(numberPage);
+    if (currentNumberPage === 2) {
+      onePage.style.display = "none";
+      prevPage.style.display = "none";
+    }
+
+    if (currentNumberPage === nPage) {
+      thirdPage.style.display = "block";
+      nextPage.style.display = "block";
+    }
+    currentNumberPage--;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, faciltites.data);
+  });
 }
 
 function ArrToDic(data) {
@@ -351,4 +585,95 @@ changeToSuccessScreen.addEventListener("click", (e) => {
   }, 3000);
 });
 
-// export { number_item };
+searchButton.addEventListener("click", async function () {
+  let searchData = [];
+  const content = searchInput.value;
+  if (content.trim() !== "") {
+    const outputElement = document.createElement("p");
+    outputElement.textContent = content;
+  } else {
+  }
+  for (let i = 0; i < Object.keys(allData).length; i++) {
+    if (allData[i].name.includes(content)) {
+      searchData.push(allData[i]);
+    }
+  }
+  let currentNumberPage = 1;
+  let nPage =
+    Math.round(Object.keys(searchData).length / configPage.pageSize) + 1;
+  console.log(nPage);
+  changeStartPage();
+  dataPage(currentNumberPage, searchData);
+  thirdPage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 1) {
+      onePage.style.display = "block";
+      prevPage.style.display = "block";
+    }
+
+    if (currentNumberPage === nPage - 1) {
+      thirdPage.style.display = "none";
+      nextPage.style.display = "none";
+    }
+    currentNumberPage++;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, searchData);
+  });
+
+  nextPage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 1) {
+      onePage.style.display = "block";
+      prevPage.style.display = "block";
+    }
+
+    if (currentNumberPage === nPage - 1) {
+      thirdPage.style.display = "none";
+      nextPage.style.display = "none";
+    }
+    currentNumberPage++;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, searchData);
+  });
+
+  onePage.addEventListener("click", (e) => {
+    // console.log(numberPage);
+    if (currentNumberPage === 2) {
+      onePage.style.display = "none";
+      prevPage.style.display = "none";
+    }
+
+    if (currentNumberPage === nPage) {
+      thirdPage.style.display = "block";
+      nextPage.style.display = "block";
+    }
+    currentNumberPage--;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, searchData);
+  });
+
+  prevPage.addEventListener("click", (e) => {
+    console.log();
+    // console.log(numberPage);
+    if (currentNumberPage === 2) {
+      onePage.style.display = "none";
+      prevPage.style.display = "none";
+    }
+
+    if (currentNumberPage === nPage) {
+      thirdPage.style.display = "block";
+      nextPage.style.display = "block";
+    }
+    currentNumberPage--;
+    onePage.textContent = currentNumberPage - 1;
+    twoPage.textContent = currentNumberPage;
+    thirdPage.textContent = currentNumberPage + 1;
+    dataPage(currentNumberPage, searchData);
+  });
+});

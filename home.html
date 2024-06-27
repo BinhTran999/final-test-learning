@@ -118,15 +118,14 @@
           <div class="list-search">
             <p>List services</p>
           </div>
-          <form>
+          <div>
             <input
-              type="search"
-              class="search-text"
+              id="search-text"
               placeholder="Enter product name"
               aria-label="Tìm kiếm"
             />
-            <button type="submit" id="submit_search">Search</button>
-          </form>
+            <button id="submit_search">Search</button>
+          </div>
         </div>
         <div class="total-list"></div>
       </div>
@@ -322,29 +321,11 @@
       </div>
       <div class="page-box">
         <div id="page-item">
-          <nav
-            class="pagination-container"
-            data-current-page="1"
-            aria-live="polite"
-          >
-            <button
-              class="pagination-button"
-              id="prev-button"
-              aria-label="Previous page"
-              title="Previous page"
-            >
-              &lt;
-            </button>
-            <div id="pagination-numbers"></div>
-            <button
-              class="pagination-button"
-              id="next-button"
-              aria-label="Next page"
-              title="Next page"
-            >
-              &gt;
-            </button>
-          </nav>
+          <button id="prev-page" style="display: none">Prev</button>
+          <button id="page-1" style="display: none">0</button>
+          <button id="page-2" style="display: block">1</button>
+          <button id="page-3" style="display: block">2</button>
+          <button id="next-page" style="display: block">Next</button>
         </div>
       </div>
     </div>
