@@ -246,7 +246,6 @@ function dataPage(currentPage, data) {
 }
 
 thirdPage.addEventListener("click", (e) => {
-  // console.log(numberPage);
   if (currentPage === 1) {
     onePage.style.display = "block";
     prevPage.style.display = "block";
@@ -264,7 +263,6 @@ thirdPage.addEventListener("click", (e) => {
 });
 
 nextPage.addEventListener("click", (e) => {
-  // console.log(numberPage);
   if (currentPage === 1) {
     onePage.style.display = "block";
     prevPage.style.display = "block";
@@ -282,7 +280,6 @@ nextPage.addEventListener("click", (e) => {
 });
 
 onePage.addEventListener("click", (e) => {
-  // console.log(numberPage);
   if (currentPage === 2) {
     onePage.style.display = "none";
     prevPage.style.display = "none";
@@ -300,8 +297,6 @@ onePage.addEventListener("click", (e) => {
 });
 
 prevPage.addEventListener("click", (e) => {
-  console.log();
-  // console.log(numberPage);
   if (currentPage === 2) {
     onePage.style.display = "none";
     prevPage.style.display = "none";
@@ -363,9 +358,13 @@ let isButtonClicked = false;
 
 divItemShopping.addEventListener("click", (e) => {
   const itemDic = ArrToDic(CacheArray);
-  shoppingItemList.style.display === "none"
-    ? (shoppingItemList.style.display = "block")
-    : (shoppingItemList.style.display = "none");
+  if (shoppingItemList.style.display === "none") {
+    shoppingItemList.style.display = "block";
+  } else {
+    const tableToRemove = listShopItem.querySelector("table");
+    tableToRemove.remove();
+    shoppingItemList.style.display = "none";
+  }
   CacheData = itemDic;
   var arr = [];
   for (var key in itemDic) {
@@ -420,7 +419,7 @@ function createTable(arr) {
         cell.style.height = "20px";
       }
       if (j === 2) {
-        const cell = document.createElement("div");
+        const cell = document.createElement("button");
         cell.rowIndex = i;
         row.appendChild(cell);
         // cell.addEventListener("click", () => {
@@ -482,13 +481,11 @@ function throttledDebounce(func, delay, maxDelay) {
 
   return function (...args) {
     const now = new Date().getTime();
-
     // Throttle
     if (now - lastCall < maxDelay) {
       return;
     }
     lastCall = now;
-
     // Debounce
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
