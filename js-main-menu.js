@@ -37,7 +37,6 @@ const searchInput = document.querySelector("#search-text");
 const searchButton = document.querySelector("#submit_search");
 
 let currentPage = 1;
-let itemsPerPage = 12;
 
 const divItem = [...document.querySelectorAll(".item")];
 const isItemClicked = Array(itemArr.length).fill(false);
@@ -54,6 +53,9 @@ const configPage = {
   pageSize: 12,
   currentPage: 1,
 };
+
+let isItemDisplay = 0;
+let deleteButtonItems = [];
 
 function initNewArrItem(index) {
   return [
@@ -80,6 +82,19 @@ divItem.forEach((item, index) => {
   });
 });
 
+itemABox.addEventListener("click", function (event) {
+  event.stopPropagation();
+});
+
+document.addEventListener("click", function (event) {
+  if (!itemABox.contains(event.target) && isItemDisplay != 0) {
+    isItemDisplay = 0;
+    itemSopBox.style.display = "none";
+  } else {
+    isItemDisplay++;
+  }
+});
+
 window.number_item = 300;
 
 clickAdd.addEventListener("click", (e) => {
@@ -97,15 +112,40 @@ exitDetailItem.addEventListener("click", (e) => {
   itemSopBox.style.display = "none";
 });
 
+// async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
+//   let retries = 0;
+//   while (true) {
+//     try {
+//       const response = await fetch(url);
+//       if (!response.ok) {
+//         if (response.status === 500 && retries < maxRetries) {
+//           await new Promise((resolve) => setTimeout(resolve, retryDelay));
+//           retries++;
+//           continue;
+//         }
+//         throw new Error(`HTTP error ${response.status}`);
+//       }
+//       const data = await response.json();
+//       return data;
+//     } catch (error) {
+//       console.error("Error:", error);
+//       if (error.message === "HTTP error 500" && retries < maxRetries) {
+//         await new Promise((resolve) => setTimeout(resolve, retryDelay));
+//         retries++;
+//         continue;
+//       }
+//       throw error;
+//     }
+//   }
+// }
+
 async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
-  let retries = 0;
-  while (true) {
+  for (let retries = 0; retries < maxRetries; retries++) {
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        if (response.status === 500 && retries < maxRetries) {
+        if (response.status === 500) {
           await new Promise((resolve) => setTimeout(resolve, retryDelay));
-          retries++;
           continue;
         }
         throw new Error(`HTTP error ${response.status}`);
@@ -114,12 +154,13 @@ async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
       return data;
     } catch (error) {
       console.error("Error:", error);
-      if (error.message === "HTTP error 500" && retries < maxRetries) {
+      if (error.message === "HTTP error 500") {
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
-        retries++;
         continue;
       }
-      throw error;
+      if (retries === maxRetries - 1) {
+        throw error;
+      }
     }
   }
 }
@@ -139,7 +180,7 @@ window.onload = async function () {
     data_i = await funcRequest(url_i);
     allData.push(...data_i.data.items);
   }
-  for (let i = 0; i < itemsPerPage; i++) {
+  for (let i = 0; i < configPage.pageSize; i++) {
     let bimg = "url('" + allData[i].image + "')";
     itemArr[i].style.backgroundImage = bimg;
     itemArr[i].style.backgroundSize = "100% 100%";
@@ -168,10 +209,6 @@ async function getEnermyData() {
 }
 
 async function processData() {
-  var cachedData = null;
-  if (cachedData !== null) {
-    return cachedData;
-  }
   const data = await getEnermyData();
   cachedData = data;
   return cachedData;
@@ -192,88 +229,10 @@ async function serviceClick() {
     Math.round(Object.keys(services.data).length / configPage.pageSize) + 1;
   changeStartPage();
   dataPage(currentNumberPage, services.data);
-  thirdPage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 1) {
-      onePage.style.display = "block";
-      prevPage.style.display = "block";
-    }
-
-    if (currentNumberPage === nPage - 1) {
-      thirdPage.style.display = "none";
-      nextPage.style.display = "none";
-    }
-    currentNumberPage++;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, services.data);
-  });
-
-  nextPage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 1) {
-      onePage.style.display = "block";
-      prevPage.style.display = "block";
-    }
-
-    if (currentNumberPage === nPage - 1) {
-      thirdPage.style.display = "none";
-      nextPage.style.display = "none";
-    }
-    currentNumberPage++;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, services.data);
-  });
-
-  onePage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 2) {
-      onePage.style.display = "none";
-      prevPage.style.display = "none";
-    }
-
-    if (currentNumberPage === nPage) {
-      thirdPage.style.display = "block";
-      nextPage.style.display = "block";
-    }
-    currentNumberPage--;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, services.data);
-  });
-
-  prevPage.addEventListener("click", (e) => {
-    console.log();
-    // console.log(numberPage);
-    if (currentNumberPage === 2) {
-      onePage.style.display = "none";
-      prevPage.style.display = "none";
-    }
-
-    if (currentNumberPage === nPage) {
-      thirdPage.style.display = "block";
-      nextPage.style.display = "block";
-    }
-    currentNumberPage--;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, services.data);
-  });
-
-  // for (let i = 0; i < Object.keys(services.data).length - 1; i++) {
-  //   let bimg = "url('" + services.data[i].image + "')";
-  //   itemArr[i].style.backgroundImage = bimg;
-  //   itemArr[i].style.backgroundSize = "100% 100%";
-  //   itemNameArr[i].innerHTML = services.data[i].name;
-  //   itemPriceArr[i].innerHTML = services.data[i].price + " VND";
-  //   itemDescriptionArr[i].innerHTML = services.data[i].description;
-  //   itemTypeArr[i].innerHTML = allData[i].type;
-  // }
+  allData = services.data;
+  currentPage = 1;
+  numberPage =
+    Math.round(Object.keys(services.data).length / configPage.pageSize) + 1;
 }
 
 function changeStartPage() {
@@ -284,6 +243,35 @@ function changeStartPage() {
   nextPage.style.display = "block";
   twoPage.textContent = 1;
   thirdPage.textContent = 2;
+}
+
+function dataPage(currentPage, data) {
+  let n;
+  const startIndex = (currentPage - 1) * configPage.pageSize;
+  for (let i = 0; i < configPage.pageSize; i++) {
+    let bimg = "url('" + data[startIndex + i].image + "')";
+    itemArr[i].style.backgroundImage = bimg;
+    itemArr[i].style.backgroundSize = "100% 100%";
+    itemNameArr[i].innerHTML = data[startIndex + i].name;
+    itemPriceArr[i].innerHTML = data[startIndex + i].price + " VND";
+    itemDescriptionArr[i].innerHTML = data[startIndex + i].description;
+    itemTypeArr[i].innerHTML = data[startIndex + i].type;
+    n = startIndex + i + 1;
+    if (i + startIndex === Object.keys(data).length - 1) {
+      break;
+    }
+  }
+  console.log(n);
+  if (n === Object.keys(data).length) {
+    for (let i = n % 12; i < configPage.pageSize; i++) {
+      divItem[i].style.display = "none";
+    }
+  } else {
+    for (let i = 0; i < configPage.pageSize; i++) {
+      divItem[i].style.display = "block";
+    }
+  }
+  n = 0;
 }
 
 thirdPage.addEventListener("click", (e) => {
@@ -303,20 +291,6 @@ thirdPage.addEventListener("click", (e) => {
   thirdPage.textContent = currentPage + 1;
   dataPage(currentPage, allData);
 });
-
-function dataPage(currentPage, data) {
-  const startIndex = (currentPage - 1) * configPage.pageSize;
-  for (let i = 0; i < configPage.pageSize; i++) {
-    let bimg = "url('" + data[startIndex + i].image + "')";
-    itemArr[i].style.backgroundImage = bimg;
-    itemArr[i].style.backgroundSize = "100% 100%";
-    itemNameArr[i].innerHTML = data[startIndex + i].name;
-    itemPriceArr[i].innerHTML = data[startIndex + i].price + " VND";
-    itemDescriptionArr[i].innerHTML = data[startIndex + i].description;
-    itemTypeArr[i].innerHTML = data[startIndex + i].type;
-    console.log(itemTypeArr[i].innerHTML);
-  }
-}
 
 nextPage.addEventListener("click", (e) => {
   // console.log(numberPage);
@@ -387,85 +361,15 @@ async function faciltitesClick() {
   let nPage =
     Math.round(Object.keys(faciltites.data).length / configPage.pageSize) + 1;
   changeStartPage();
-  console.log(faciltites.data);
   dataPage(currentNumberPage, faciltites.data);
-  thirdPage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 1) {
-      onePage.style.display = "block";
-      prevPage.style.display = "block";
-    }
-
-    if (currentNumberPage === nPage - 1) {
-      thirdPage.style.display = "none";
-      nextPage.style.display = "none";
-    }
-    currentNumberPage++;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, faciltites.data);
-  });
-
-  nextPage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 1) {
-      onePage.style.display = "block";
-      prevPage.style.display = "block";
-    }
-
-    if (currentNumberPage === nPage - 1) {
-      thirdPage.style.display = "none";
-      nextPage.style.display = "none";
-    }
-    currentNumberPage++;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, faciltites.data);
-  });
-
-  onePage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 2) {
-      onePage.style.display = "none";
-      prevPage.style.display = "none";
-    }
-
-    if (currentNumberPage === nPage) {
-      thirdPage.style.display = "block";
-      nextPage.style.display = "block";
-    }
-    currentNumberPage--;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, faciltites.data);
-  });
-
-  prevPage.addEventListener("click", (e) => {
-    console.log();
-    // console.log(numberPage);
-    if (currentNumberPage === 2) {
-      onePage.style.display = "none";
-      prevPage.style.display = "none";
-    }
-
-    if (currentNumberPage === nPage) {
-      thirdPage.style.display = "block";
-      nextPage.style.display = "block";
-    }
-    currentNumberPage--;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, faciltites.data);
-  });
+  allData = faciltites.data;
+  currentPage = 1;
+  numberPage =
+    Math.round(Object.keys(faciltites.data).length / configPage.pageSize) + 1;
 }
 
 function ArrToDic(data) {
   let frequencyDict = {};
-  let dataDic = {};
   for (let item of data) {
     if (frequencyDict[item[0]]) {
       frequencyDict[item[0]].quanlity += 1;
@@ -491,9 +395,6 @@ divItemShopping.addEventListener("click", (e) => {
   shoppingItemList.style.display === "none"
     ? (shoppingItemList.style.display = "block")
     : (shoppingItemList.style.display = "none");
-  if (shoppingItemList.style.display === "block") {
-    console.log(CacheArray);
-  }
   CacheData = itemDic;
   var arr = [];
   for (var key in itemDic) {
@@ -501,7 +402,9 @@ divItemShopping.addEventListener("click", (e) => {
       arr.push([itemDic[key]]);
     }
   }
+  console.log(arr);
   const table = createTable(arr);
+  console.log(arr);
   listShopItem.appendChild(table);
   let totalPrice = 0;
   for (item of arr) {
@@ -546,26 +449,30 @@ function createTable(arr) {
         cell.style.height = "20px";
       }
       if (j === 2) {
-        const cell = document.createElement("td");
+        const cell = document.createElement("div");
+        cell.rowIndex = i;
         row.appendChild(cell);
-        cell.addEventListener("click", () => {
-          row.remove();
-          console.log(arr[i][0].name);
-        });
+        // cell.addEventListener("click", () => {
+        //   const rowToRemove = arr[cell.rowIndex];
+        //   console.log(rowToRemove[0]);
+        //   arr.splice(cell.rowIndex, 1);
+        //   const tableBody = document.querySelector("table");
+        //   tableBody.removeChild(tableBody.children[cell.rowIndex]);
+        // });
         cell.textContent = "delete";
         cell.style.backgroundColor = "black";
         cell.style.background = "white";
         cell.style.width = "100px";
-        cell.style.textContent = "A";
+        deleteButtonItems.push(cell);
       }
     }
     table.appendChild(row);
   }
+  console.log(deleteButtonItems);
   return table;
 }
 
 closeItemList.addEventListener("click", (e) => {
-  console.log(CacheData);
   const tableToRemove = listShopItem.querySelector("table");
   tableToRemove.remove();
   shoppingItemList.style.display = "none";
@@ -585,95 +492,85 @@ changeToSuccessScreen.addEventListener("click", (e) => {
   }, 3000);
 });
 
-searchButton.addEventListener("click", async function () {
+searchInput.addEventListener(
+  "input",
+  throttledDebounce(
+    () => {
+      const searchTerm = searchInput.value;
+      console.log(searchTerm);
+      searchKeyWord(searchTerm);
+    },
+    500,
+    2000
+  )
+);
+
+function throttledDebounce(func, delay, maxDelay) {
+  let lastCall = 0;
+  let timeoutId;
+
+  return function (...args) {
+    const now = new Date().getTime();
+
+    // Throttle
+    if (now - lastCall < maxDelay) {
+      return;
+    }
+    lastCall = now;
+
+    // Debounce
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
+// function sleep(delay) {
+//   var start = new Date().getTime();
+//   while (new Date().getTime() < start + delay);
+// }
+
+function searchKeyWord(content) {
   let searchData = [];
-  const content = searchInput.value;
-  if (content.trim() !== "") {
-    const outputElement = document.createElement("p");
-    outputElement.textContent = content;
-  } else {
-  }
   for (let i = 0; i < Object.keys(allData).length; i++) {
     if (allData[i].name.includes(content)) {
       searchData.push(allData[i]);
     }
   }
   let currentNumberPage = 1;
-  let nPage =
-    Math.round(Object.keys(searchData).length / configPage.pageSize) + 1;
-  console.log(nPage);
   changeStartPage();
   dataPage(currentNumberPage, searchData);
-  thirdPage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 1) {
-      onePage.style.display = "block";
-      prevPage.style.display = "block";
-    }
+  if (Object.keys(searchData).length < configPage.pageSize) {
+    onePage.style.display = "none";
+    prevPage.style.display = "none";
+    twoPage.style.display = "block";
+    thirdPage.style.display = "none";
+    nextPage.style.display = "none";
+  }
+  currentPage = 1;
+  numberPage = Math.round(Object.keys(searchData).length / configPage.pageSize);
+}
 
-    if (currentNumberPage === nPage - 1) {
-      thirdPage.style.display = "none";
-      nextPage.style.display = "none";
-    }
-    currentNumberPage++;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, searchData);
-  });
+searchButton.addEventListener("click", async function () {
+  const content = searchInput.value;
+  searchKeyWord(content);
+});
 
-  nextPage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 1) {
-      onePage.style.display = "block";
-      prevPage.style.display = "block";
-    }
-
-    if (currentNumberPage === nPage - 1) {
-      thirdPage.style.display = "none";
-      nextPage.style.display = "none";
-    }
-    currentNumberPage++;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, searchData);
-  });
-
-  onePage.addEventListener("click", (e) => {
-    // console.log(numberPage);
-    if (currentNumberPage === 2) {
-      onePage.style.display = "none";
-      prevPage.style.display = "none";
-    }
-
-    if (currentNumberPage === nPage) {
-      thirdPage.style.display = "block";
-      nextPage.style.display = "block";
-    }
-    currentNumberPage--;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, searchData);
-  });
-
-  prevPage.addEventListener("click", (e) => {
-    console.log();
-    // console.log(numberPage);
-    if (currentNumberPage === 2) {
-      onePage.style.display = "none";
-      prevPage.style.display = "none";
-    }
-
-    if (currentNumberPage === nPage) {
-      thirdPage.style.display = "block";
-      nextPage.style.display = "block";
-    }
-    currentNumberPage--;
-    onePage.textContent = currentNumberPage - 1;
-    twoPage.textContent = currentNumberPage;
-    thirdPage.textContent = currentNumberPage + 1;
-    dataPage(currentNumberPage, searchData);
+deleteButtonItems.forEach((item, index) => {
+  item.addEventListener("click", () => {
+    console.log(index);
+    // let i = 0;
+    // shoppingItemList.style.display = "none";
+    // itemSopBox.style.display = "block";
+    // itemImage.style.backgroundImage = itemArr[index].style.backgroundImage;
+    // document.querySelector("#name-item").textContent =
+    //   "Name : " + itemNameArr[index].textContent;
+    // document.querySelector("#description-item").textContent =
+    //   "Description : " + itemDescriptionArr[index].textContent;
+    // document.querySelector("#price-item").textContent =
+    //   "Price : " + itemPriceArr[index].textContent;
+    // newArrItem = initNewArrItem(index);
+    // cacheAr = newArrItem;
   });
 });
