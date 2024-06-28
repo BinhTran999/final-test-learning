@@ -43,7 +43,6 @@ const isItemClicked = Array(itemArr.length).fill(false);
 const itemImage = document.querySelector("#imageAItem");
 const divItemShopping = document.querySelector("#shopping");
 const clickAdd = document.querySelector("#add-to-cart");
-
 let CacheData = {};
 let CacheArray = [];
 var cacheAr = null;
@@ -112,33 +111,6 @@ exitDetailItem.addEventListener("click", (e) => {
   itemSopBox.style.display = "none";
 });
 
-// async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
-//   let retries = 0;
-//   while (true) {
-//     try {
-//       const response = await fetch(url);
-//       if (!response.ok) {
-//         if (response.status === 500 && retries < maxRetries) {
-//           await new Promise((resolve) => setTimeout(resolve, retryDelay));
-//           retries++;
-//           continue;
-//         }
-//         throw new Error(`HTTP error ${response.status}`);
-//       }
-//       const data = await response.json();
-//       return data;
-//     } catch (error) {
-//       console.error("Error:", error);
-//       if (error.message === "HTTP error 500" && retries < maxRetries) {
-//         await new Promise((resolve) => setTimeout(resolve, retryDelay));
-//         retries++;
-//         continue;
-//       }
-//       throw error;
-//     }
-//   }
-// }
-
 async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
   for (let retries = 0; retries < maxRetries; retries++) {
     try {
@@ -167,7 +139,7 @@ async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
 
 window.onload = async function () {
   allData = [];
-  const data = await funcRequest("http://10.63.161.172:3001/api/get-product");
+  let data = await funcRequest("http://10.63.161.172:3001/api/get-product");
   console.log(data.data.total / Object.keys(data.data.items).length + 1);
   numberPage = Math.round(data.data.total / configPage.pageSize) + 1;
   console.log(numberPage);
@@ -271,7 +243,6 @@ function dataPage(currentPage, data) {
       divItem[i].style.display = "block";
     }
   }
-  n = 0;
 }
 
 thirdPage.addEventListener("click", (e) => {
@@ -525,11 +496,6 @@ function throttledDebounce(func, delay, maxDelay) {
     }, delay);
   };
 }
-
-// function sleep(delay) {
-//   var start = new Date().getTime();
-//   while (new Date().getTime() < start + delay);
-// }
 
 function searchKeyWord(content) {
   let searchData = [];
