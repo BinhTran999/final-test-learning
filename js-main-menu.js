@@ -31,8 +31,6 @@ const itemABox = document.getElementById("itemSopBox");
 const confirmBox = document.getElementById("itemConfirmBox");
 const exitConfirmBox = document.getElementById("exitConfirmBox");
 
-console.log(typeof document.querySelectorAll(".item .img-html"));
-
 const searchInput = document.querySelector("#search-text");
 const searchButton = document.querySelector("#submit_search");
 
@@ -43,7 +41,7 @@ const isItemClicked = Array(itemArr.length).fill(false);
 const itemImage = document.querySelector("#imageAItem");
 const divItemShopping = document.querySelector("#shopping");
 const clickAdd = document.querySelector("#add-to-cart");
-let CacheData = {};
+// let CacheData = {};
 let CacheArray = [];
 var cacheAr = null;
 let allData;
@@ -96,16 +94,37 @@ document.addEventListener("click", function (event) {
 
 window.number_item = 300;
 
+function saveItemToLocalStorage(data) {
+  localStorage.setItem("itemData", JSON.stringify(data));
+}
+
+function saveNumberItemToLocalStorage(numberItem) {
+  localStorage.setItem("numberItemData", JSON.stringify(numberItem));
+}
+
+function getItemFromLocalStorage() {
+  const list = localStorage.getItem("itemData");
+  return list ? JSON.parse(list) : [];
+}
+
+function getNumberItemFromLocalStorage() {
+  const number = localStorage.getItem("numberItemData");
+  return number ? parseInt(JSON.parse(number)) : 0;
+}
+
 clickAdd.addEventListener("click", (e) => {
-  // console.log(divItemShopping.textContent);
   let currentValue = parseInt(sabanAcc.textContent);
   currentValue++;
   number_item = currentValue;
   sabanAcc.textContent = currentValue;
+  saveNumberItemToLocalStorage(currentValue);
   shoppingItemList.style.display = "none";
   CacheArray.push(cacheAr);
-  console.log(CacheArray);
+  saveItemToLocalStorage(CacheArray);
 });
+
+sabanAcc.textContent = getNumberItemFromLocalStorage();
+CacheArray = getItemFromLocalStorage();
 
 exitDetailItem.addEventListener("click", (e) => {
   itemSopBox.style.display = "none";
@@ -140,9 +159,7 @@ async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
 window.onload = async function () {
   allData = [];
   let data = await funcRequest("http://10.63.161.172:3001/api/get-product");
-  console.log(data.data.total / Object.keys(data.data.items).length + 1);
   numberPage = Math.round(data.data.total / configPage.pageSize) + 1;
-  console.log(numberPage);
   for (
     let i = 0;
     i < data.data.total / Object.keys(data.data.items).length + 1;
@@ -233,7 +250,6 @@ function dataPage(currentPage, data) {
       break;
     }
   }
-  console.log(n);
   if (n === Object.keys(data).length) {
     for (let i = n % 12; i < configPage.pageSize; i++) {
       divItem[i].style.display = "none";
@@ -354,50 +370,84 @@ function ArrToDic(data) {
 
 const listShopItem = document.querySelector(".list-shop-item");
 
-let isButtonClicked = false;
-
 divItemShopping.addEventListener("click", (e) => {
+  const tableToRemove = listShopItem.querySelector("table");
   const itemDic = ArrToDic(CacheArray);
   if (shoppingItemList.style.display === "none") {
     shoppingItemList.style.display = "block";
+    // CacheData = itemDic;
+    var arr = [];
+    for (var key in itemDic) {
+      if (itemDic.hasOwnProperty(key)) {
+        arr.push([itemDic[key]]);
+      }
+    }
+    let table = createTable(arr);
+    listShopItem.appendChild(table);
+    let totalPrice = 0;
+    for (item of arr) {
+      let amountWithoutSuffix = item[0].price.slice(0, -4);
+      let amountNumber = parseInt(amountWithoutSuffix);
+      let numberOfItem = parseInt(item[0].quanlity);
+      totalPrice += amountNumber * numberOfItem;
+    }
+    console.log(CacheArray);
+    amountAllItemShop.textContent = totalPrice + " VND";
+    const rows = listShopItem.getElementsByTagName("tr");
+    for (let i = 0; i < rows.length; i++) {
+      const deleteButton = rows[i].getElementsByTagName("button")[0];
+      console.log(deleteButton);
+      deleteButton.addEventListener("click", function () {
+        console.log(i);
+        arr.splice(i, 1);
+        rows[i].remove();
+      });
+    }
   } else {
-    const tableToRemove = listShopItem.querySelector("table");
-    tableToRemove.remove();
+    deleteButtonItems = [];
     shoppingItemList.style.display = "none";
   }
-  CacheData = itemDic;
-  var arr = [];
-  for (var key in itemDic) {
-    if (itemDic.hasOwnProperty(key)) {
-      arr.push([itemDic[key]]);
-    }
-  }
-  console.log(arr);
-  const table = createTable(arr);
-  console.log(arr);
-  listShopItem.appendChild(table);
-  let totalPrice = 0;
-  for (item of arr) {
-    let amountWithoutSuffix = item[0].price.slice(0, -4);
-    let amountNumber = parseInt(amountWithoutSuffix);
-    let numberOfItem = parseInt(item[0].quanlity);
-    totalPrice += amountNumber * numberOfItem;
-  }
-  amountAllItemShop.textContent = totalPrice + " VND";
-});
 
-function renderPagination() {
-  console.log(122);
-}
+  // deleteButtonItems.forEach((item, index) => {
+  //   item.addEventListener("click", () => {
+  //     let startTime = performance.now();
+  //     console.log(index);
+  //     if (listShopItem.getElementsByTagName("table")[0].rows.length === 1) {
+  //       listShopItem.removeChild(table);
+  //       CacheArray = [];
+  //       shoppingItemList.style.display = "none";
+  //       deleteButtonItems = [];
+  //       let currentValue = parseInt(sabanAcc.textContent);
+  //       currentValue = 0;
+  //       number_item = currentValue;
+  //       sabanAcc.textContent = currentValue;
+  //     } else {
+  //       listShopItem.getElementsByTagName("table")[0].deleteRow(index);
+  //       const deleteItemName = CacheArray[index][0];
+  //       const newCacheArray = CacheArray.filter(function (item) {
+  //         return item[0] != deleteItemName;
+  //       });
+  //       CacheArray = newCacheArray;
+  //       deleteButtonItems.splice(index, 1);
+  //       arr.splice(index, 1);
+  //       let currentValue = parseInt(sabanAcc.textContent);
+  //       currentValue -= itemDic[deleteItemName].quanlity;
+  //       number_item = currentValue;
+  //       sabanAcc.textContent = currentValue;
+  //     }
+  //     let endTime = performance.now();
+  //     console.log(endTime - startTime);
+  //   });
+  // });
+  tableToRemove.remove();
+});
 
 function createTable(arr) {
   const numRows = Object.keys(arr).length;
-  console.log(numRows);
   const table = document.createElement("table");
   table.style.borderCollapse = "collapse";
   table.style.border = "1px solid black";
   for (let i = 0; i < numRows; i++) {
-    console.log(arr[i][0].name);
     const row = document.createElement("tr");
     row.style.border = "1px solid black";
     for (let j = 0; j < 3; j++) {
@@ -422,13 +472,6 @@ function createTable(arr) {
         const cell = document.createElement("button");
         cell.rowIndex = i;
         row.appendChild(cell);
-        // cell.addEventListener("click", () => {
-        //   const rowToRemove = arr[cell.rowIndex];
-        //   console.log(rowToRemove[0]);
-        //   arr.splice(cell.rowIndex, 1);
-        //   const tableBody = document.querySelector("table");
-        //   tableBody.removeChild(tableBody.children[cell.rowIndex]);
-        // });
         cell.textContent = "delete";
         cell.style.backgroundColor = "black";
         cell.style.background = "white";
@@ -438,7 +481,7 @@ function createTable(arr) {
     }
     table.appendChild(row);
   }
-  console.log(deleteButtonItems);
+
   return table;
 }
 
@@ -446,6 +489,7 @@ closeItemList.addEventListener("click", (e) => {
   const tableToRemove = listShopItem.querySelector("table");
   tableToRemove.remove();
   shoppingItemList.style.display = "none";
+  deleteButtonItems = [];
 });
 
 submitItem.addEventListener("click", (e) => {
@@ -496,10 +540,14 @@ function throttledDebounce(func, delay, maxDelay) {
 
 function searchKeyWord(content) {
   let searchData = [];
-  for (let i = 0; i < Object.keys(allData).length; i++) {
-    if (allData[i].name.includes(content)) {
-      searchData.push(allData[i]);
+  if (content != "") {
+    for (let i = 0; i < Object.keys(allData).length; i++) {
+      if (allData[i].name.includes(content)) {
+        searchData.push(allData[i]);
+      }
     }
+  } else {
+    searchData = allData;
   }
   let currentNumberPage = 1;
   changeStartPage();
@@ -518,22 +566,4 @@ function searchKeyWord(content) {
 searchButton.addEventListener("click", async function () {
   const content = searchInput.value;
   searchKeyWord(content);
-});
-
-deleteButtonItems.forEach((item, index) => {
-  item.addEventListener("click", () => {
-    console.log(index);
-    // let i = 0;
-    // shoppingItemList.style.display = "none";
-    // itemSopBox.style.display = "block";
-    // itemImage.style.backgroundImage = itemArr[index].style.backgroundImage;
-    // document.querySelector("#name-item").textContent =
-    //   "Name : " + itemNameArr[index].textContent;
-    // document.querySelector("#description-item").textContent =
-    //   "Description : " + itemDescriptionArr[index].textContent;
-    // document.querySelector("#price-item").textContent =
-    //   "Price : " + itemPriceArr[index].textContent;
-    // newArrItem = initNewArrItem(index);
-    // cacheAr = newArrItem;
-  });
 });

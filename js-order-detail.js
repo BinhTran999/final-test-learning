@@ -39,21 +39,31 @@ window.onload = async function () {
 };
 
 function createTable(arr) {
+  console.log(arr);
   const table = document.createElement("table");
   table.style.borderCollapse = "collapse";
   table.style.border = "1px solid black";
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < Object.keys(arr).length; i++) {
     const row = document.createElement("tr");
     row.style.border = "1px solid black";
 
     for (let j = 0; j < 4; j++) {
       const cell = document.createElement("td");
-      if (i == 0) {
-        console.log(arr[i].productId);
+      if (j == 0) {
+        cell.textContent = arr[i].productId;
+      }
+      if (j == 0) {
+        cell.textContent = arr[i].productId;
+      }
+      if (j == 0) {
+        cell.textContent = arr[i].productId;
+      }
+      if (j == 0) {
+        cell.textContent = arr[i].productId;
       }
       cell.style.border = "1px solid black";
-      cell.style.width = "150px";
-      cell.style.height = "20px";
+      cell.style.width = "175px";
+      cell.style.height = "40px";
       row.appendChild(cell);
     }
 

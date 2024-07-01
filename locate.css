@@ -471,7 +471,7 @@
 
 .list-shop-item {
   width: 395px;
-  height: 185px;
+  height: flex;
   margin-left: 50px;
 }
 
