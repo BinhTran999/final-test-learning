@@ -28,27 +28,26 @@ const nextPage = document.querySelector("#next-page");
 const changeToSuccessScreen = document.querySelector("#changeToConfirmWindow");
 
 const itemABox = document.getElementById("itemSopBox");
-const confirmBox = document.getElementById("itemConfirmBox");
+const confirmBox = document.getElementById("item_confirm_box");
 const exitConfirmBox = document.getElementById("exitConfirmBox");
 
 const searchInput = document.querySelector("#search-text");
 const searchButton = document.querySelector("#submit_search");
 
-let currentPage = 1;
+let CURRENT_PAGE = 1;
 
-const divItem = [...document.querySelectorAll(".item")];
-const isItemClicked = Array(itemArr.length).fill(false);
+const divItems = [...document.querySelectorAll(".item")];
 const itemImage = document.querySelector("#imageAItem");
-const divItemShopping = document.querySelector("#shopping");
+const divItemsShopping = document.querySelector("#shopping");
 const clickAdd = document.querySelector("#add-to-cart");
 // let CacheData = {};
-let CacheArray = [];
+let cacheArrays = [];
 var cacheAr = null;
 let allData;
 let numberPage;
-const configPage = {
-  pageSize: 12,
-  currentPage: 1,
+const CONFIG_PAGE = {
+  PAGE_SIZE: 12,
+  CURRENT_PAGE: 1,
 };
 
 let isItemDisplay = 0;
@@ -62,7 +61,7 @@ function initNewArrItem(index) {
   ];
 }
 
-divItem.forEach((item, index) => {
+divItems.forEach((item, index) => {
   item.addEventListener("click", (e) => {
     let i = 0;
     shoppingItemList.style.display = "none";
@@ -119,12 +118,12 @@ clickAdd.addEventListener("click", (e) => {
   sabanAcc.textContent = currentValue;
   saveNumberItemToLocalStorage(currentValue);
   shoppingItemList.style.display = "none";
-  CacheArray.push(cacheAr);
-  saveItemToLocalStorage(CacheArray);
+  cacheArrays.push(cacheAr);
+  saveItemToLocalStorage(cacheArrays);
 });
 
 sabanAcc.textContent = getNumberItemFromLocalStorage();
-CacheArray = getItemFromLocalStorage();
+cacheArrays = getItemFromLocalStorage();
 
 exitDetailItem.addEventListener("click", (e) => {
   itemSopBox.style.display = "none";
@@ -159,17 +158,17 @@ async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
 window.onload = async function () {
   allData = [];
   let data = await funcRequest("http://10.63.161.172:3001/api/get-product");
-  numberPage = Math.round(data.data.total / configPage.pageSize) + 1;
+  numberPage = Math.round(data.data.total / CONFIG_PAGE.PAGE_SIZE) + 1;
   for (
     let i = 0;
     i < data.data.total / Object.keys(data.data.items).length + 1;
     i++
   ) {
-    const url_i = "http://10.63.161.172:3001/api/get-product?page=" + i;
-    data_i = await funcRequest(url_i);
-    allData.push(...data_i.data.items);
+    const urlItems = "http://10.63.161.172:3001/api/get-product?page=" + i;
+    dataItems = await funcRequest(urlItems);
+    allData.push(...dataItems.data.items);
   }
-  for (let i = 0; i < configPage.pageSize; i++) {
+  for (let i = 0; i < CONFIG_PAGE.PAGE_SIZE; i++) {
     let bimg = "url('" + allData[i].image + "')";
     itemArr[i].style.backgroundImage = bimg;
     itemArr[i].style.backgroundSize = "100% 100%";
@@ -190,9 +189,9 @@ async function getEnermyData() {
     i < data.data.total / Object.keys(data.data.items).length + 1;
     i++
   ) {
-    const url_i = "http://10.63.161.172:3001/api/get-product?page=" + i;
-    data_i = await funcRequest(url_i);
-    allData.push(...data_i.data.items);
+    const urlItems = "http://10.63.161.172:3001/api/get-product?page=" + i;
+    dataItems = await funcRequest(urlItems);
+    allData.push(...dataItems.data.items);
   }
   return allData;
 }
@@ -205,8 +204,7 @@ async function processData() {
 
 async function serviceClick() {
   let services = {};
-  let newArray_services = new Array();
-  services.data = newArray_services;
+  services.data = new Array();
   let data = await processData();
   for (let i = 0; i < Object.keys(data).length; i++) {
     if (data[i].type === "service") {
@@ -215,13 +213,13 @@ async function serviceClick() {
   }
   let currentNumberPage = 1;
   let nPage =
-    Math.round(Object.keys(services.data).length / configPage.pageSize) + 1;
+    Math.round(Object.keys(services.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
   changeStartPage();
   dataPage(currentNumberPage, services.data);
   allData = services.data;
-  currentPage = 1;
+  CURRENT_PAGE = 1;
   numberPage =
-    Math.round(Object.keys(services.data).length / configPage.pageSize) + 1;
+    Math.round(Object.keys(services.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
 }
 
 function changeStartPage() {
@@ -234,10 +232,10 @@ function changeStartPage() {
   thirdPage.textContent = 2;
 }
 
-function dataPage(currentPage, data) {
+function dataPage(CURRENT_PAGE, data) {
   let n;
-  const startIndex = (currentPage - 1) * configPage.pageSize;
-  for (let i = 0; i < configPage.pageSize; i++) {
+  const startIndex = (CURRENT_PAGE - 1) * CONFIG_PAGE.PAGE_SIZE;
+  for (let i = 0; i < CONFIG_PAGE.PAGE_SIZE; i++) {
     let bimg = "url('" + data[startIndex + i].image + "')";
     itemArr[i].style.backgroundImage = bimg;
     itemArr[i].style.backgroundSize = "100% 100%";
@@ -251,88 +249,87 @@ function dataPage(currentPage, data) {
     }
   }
   if (n === Object.keys(data).length) {
-    for (let i = n % 12; i < configPage.pageSize; i++) {
-      divItem[i].style.display = "none";
+    for (let i = n % 12; i < CONFIG_PAGE.PAGE_SIZE; i++) {
+      divItems[i].style.display = "none";
     }
   } else {
-    for (let i = 0; i < configPage.pageSize; i++) {
-      divItem[i].style.display = "block";
+    for (let i = 0; i < CONFIG_PAGE.PAGE_SIZE; i++) {
+      divItems[i].style.display = "block";
     }
   }
 }
 
 thirdPage.addEventListener("click", (e) => {
-  if (currentPage === 1) {
+  if (CURRENT_PAGE === 1) {
     onePage.style.display = "block";
     prevPage.style.display = "block";
   }
 
-  if (currentPage === numberPage - 1) {
+  if (CURRENT_PAGE === numberPage - 1) {
     thirdPage.style.display = "none";
     nextPage.style.display = "none";
   }
-  currentPage++;
-  onePage.textContent = currentPage - 1;
-  twoPage.textContent = currentPage;
-  thirdPage.textContent = currentPage + 1;
-  dataPage(currentPage, allData);
+  CURRENT_PAGE++;
+  onePage.textContent = CURRENT_PAGE - 1;
+  twoPage.textContent = CURRENT_PAGE;
+  thirdPage.textContent = CURRENT_PAGE + 1;
+  dataPage(CURRENT_PAGE, allData);
 });
 
 nextPage.addEventListener("click", (e) => {
-  if (currentPage === 1) {
+  if (CURRENT_PAGE === 1) {
     onePage.style.display = "block";
     prevPage.style.display = "block";
   }
 
-  if (currentPage === numberPage - 1) {
+  if (CURRENT_PAGE === numberPage - 1) {
     thirdPage.style.display = "none";
     nextPage.style.display = "none";
   }
-  currentPage++;
-  onePage.textContent = currentPage - 1;
-  twoPage.textContent = currentPage;
-  thirdPage.textContent = currentPage + 1;
-  dataPage(currentPage, allData);
+  CURRENT_PAGE++;
+  onePage.textContent = CURRENT_PAGE - 1;
+  twoPage.textContent = CURRENT_PAGE;
+  thirdPage.textContent = CURRENT_PAGE + 1;
+  dataPage(CURRENT_PAGE, allData);
 });
 
 onePage.addEventListener("click", (e) => {
-  if (currentPage === 2) {
+  if (CURRENT_PAGE === 2) {
     onePage.style.display = "none";
     prevPage.style.display = "none";
   }
 
-  if (currentPage === numberPage) {
+  if (CURRENT_PAGE === numberPage) {
     thirdPage.style.display = "block";
     nextPage.style.display = "block";
   }
-  currentPage--;
-  onePage.textContent = currentPage - 1;
-  twoPage.textContent = currentPage;
-  thirdPage.textContent = currentPage + 1;
-  dataPage(currentPage, allData);
+  CURRENT_PAGE--;
+  onePage.textContent = CURRENT_PAGE - 1;
+  twoPage.textContent = CURRENT_PAGE;
+  thirdPage.textContent = CURRENT_PAGE + 1;
+  dataPage(CURRENT_PAGE, allData);
 });
 
 prevPage.addEventListener("click", (e) => {
-  if (currentPage === 2) {
+  if (CURRENT_PAGE === 2) {
     onePage.style.display = "none";
     prevPage.style.display = "none";
   }
 
-  if (currentPage === numberPage) {
+  if (CURRENT_PAGE === numberPage) {
     thirdPage.style.display = "block";
     nextPage.style.display = "block";
   }
-  currentPage--;
-  onePage.textContent = currentPage - 1;
-  twoPage.textContent = currentPage;
-  thirdPage.textContent = currentPage + 1;
-  dataPage(currentPage, allData);
+  CURRENT_PAGE--;
+  onePage.textContent = CURRENT_PAGE - 1;
+  twoPage.textContent = CURRENT_PAGE;
+  thirdPage.textContent = CURRENT_PAGE + 1;
+  dataPage(CURRENT_PAGE, allData);
 });
 
 async function faciltitesClick() {
   let faciltites = {};
-  let newArray_faciltites = new Array();
-  faciltites.data = newArray_faciltites;
+  faciltites.data = new Array();
   let data = await processData();
   for (let i = 0; i < Object.keys(data).length; i++) {
     if (data[i].type === "facility") {
@@ -341,13 +338,13 @@ async function faciltitesClick() {
   }
   let currentNumberPage = 1;
   let nPage =
-    Math.round(Object.keys(faciltites.data).length / configPage.pageSize) + 1;
+    Math.round(Object.keys(faciltites.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
   changeStartPage();
   dataPage(currentNumberPage, faciltites.data);
   allData = faciltites.data;
-  currentPage = 1;
+  CURRENT_PAGE = 1;
   numberPage =
-    Math.round(Object.keys(faciltites.data).length / configPage.pageSize) + 1;
+    Math.round(Object.keys(faciltites.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
 }
 
 function ArrToDic(data) {
@@ -368,14 +365,13 @@ function ArrToDic(data) {
   return frequencyDict;
 }
 
-const listShopItem = document.querySelector(".list-shop-item");
+const listShopItem = document.querySelector(".list_shop_item");
 
-divItemShopping.addEventListener("click", (e) => {
+divItemsShopping.addEventListener("click", (e) => {
   const tableToRemove = listShopItem.querySelector("table");
-  const itemDic = ArrToDic(CacheArray);
+  const itemDic = ArrToDic(cacheArrays);
   if (shoppingItemList.style.display === "none") {
     shoppingItemList.style.display = "block";
-    // CacheData = itemDic;
     var arr = [];
     for (var key in itemDic) {
       if (itemDic.hasOwnProperty(key)) {
@@ -391,18 +387,44 @@ divItemShopping.addEventListener("click", (e) => {
       let numberOfItem = parseInt(item[0].quanlity);
       totalPrice += amountNumber * numberOfItem;
     }
-    console.log(CacheArray);
+    console.log(cacheArrays);
     amountAllItemShop.textContent = totalPrice + " VND";
     const rows = listShopItem.getElementsByTagName("tr");
-    for (let i = 0; i < rows.length; i++) {
-      const deleteButton = rows[i].getElementsByTagName("button")[0];
-      console.log(deleteButton);
-      deleteButton.addEventListener("click", function () {
-        console.log(i);
-        arr.splice(i, 1);
-        rows[i].remove();
+    deleteButtonItems.forEach((item, index) => {
+      item.addEventListener("click", () => {
+        let startTime = performance.now();
+        console.log(index);
+        if (listShopItem.getElementsByTagName("table")[0].rows.length === 1) {
+          listShopItem.removeChild(table);
+          cacheArrays = [];
+          shoppingItemList.style.display = "none";
+          deleteButtonItems = [];
+          let currentValue = parseInt(sabanAcc.textContent);
+          currentValue = 0;
+          number_item = currentValue;
+          sabanAcc.textContent = currentValue;
+          saveItemToLocalStorage([]);
+          saveNumberItemToLocalStorage(0);
+        } else {
+          listShopItem.getElementsByTagName("table")[0].deleteRow(index);
+          const deleteItemName = cacheArrays[index][0];
+          const newcacheArrays = cacheArrays.filter(function (item) {
+            return item[0] != deleteItemName;
+          });
+          cacheArrays = newcacheArrays;
+          deleteButtonItems.splice(index, 1);
+          arr.splice(index, 1);
+          let currentValue = parseInt(sabanAcc.textContent);
+          currentValue -= itemDic[deleteItemName].quanlity;
+          number_item = currentValue;
+          sabanAcc.textContent = currentValue;
+          saveItemToLocalStorage(arr);
+          saveNumberItemToLocalStorage(currentValue);
+        }
+        let endTime = performance.now();
+        console.log(endTime - startTime);
       });
-    }
+    });
   } else {
     deleteButtonItems = [];
     shoppingItemList.style.display = "none";
@@ -414,7 +436,7 @@ divItemShopping.addEventListener("click", (e) => {
   //     console.log(index);
   //     if (listShopItem.getElementsByTagName("table")[0].rows.length === 1) {
   //       listShopItem.removeChild(table);
-  //       CacheArray = [];
+  //       cacheArrays = [];
   //       shoppingItemList.style.display = "none";
   //       deleteButtonItems = [];
   //       let currentValue = parseInt(sabanAcc.textContent);
@@ -423,11 +445,11 @@ divItemShopping.addEventListener("click", (e) => {
   //       sabanAcc.textContent = currentValue;
   //     } else {
   //       listShopItem.getElementsByTagName("table")[0].deleteRow(index);
-  //       const deleteItemName = CacheArray[index][0];
-  //       const newCacheArray = CacheArray.filter(function (item) {
+  //       const deleteItemName = cacheArrays[index][0];
+  //       const newcacheArrays = cacheArrays.filter(function (item) {
   //         return item[0] != deleteItemName;
   //       });
-  //       CacheArray = newCacheArray;
+  //       cacheArrays = newcacheArrays;
   //       deleteButtonItems.splice(index, 1);
   //       arr.splice(index, 1);
   //       let currentValue = parseInt(sabanAcc.textContent);
@@ -481,7 +503,6 @@ function createTable(arr) {
     }
     table.appendChild(row);
   }
-
   return table;
 }
 
@@ -501,9 +522,10 @@ exitConfirmBox.addEventListener("click", (e) => {
 });
 
 changeToSuccessScreen.addEventListener("click", (e) => {
+  createLoader(5000);
   setTimeout(function () {
     window.location.href = "order-detal.html";
-  }, 3000);
+  }, 5000);
 });
 
 searchInput.addEventListener(
@@ -552,18 +574,40 @@ function searchKeyWord(content) {
   let currentNumberPage = 1;
   changeStartPage();
   dataPage(currentNumberPage, searchData);
-  if (Object.keys(searchData).length < configPage.pageSize) {
+  if (Object.keys(searchData).length < CONFIG_PAGE.PAGE_SIZE) {
     onePage.style.display = "none";
     prevPage.style.display = "none";
     twoPage.style.display = "block";
     thirdPage.style.display = "none";
     nextPage.style.display = "none";
   }
-  currentPage = 1;
-  numberPage = Math.round(Object.keys(searchData).length / configPage.pageSize);
+  CURRENT_PAGE = 1;
+  numberPage = Math.round(
+    Object.keys(searchData).length / CONFIG_PAGE.PAGE_SIZE
+  );
 }
 
 searchButton.addEventListener("click", async function () {
   const content = searchInput.value;
   searchKeyWord(content);
 });
+
+function createLoader(duration = 2000) {
+  const container = document.createElement("div");
+  container.classList.add("container");
+  const loader = document.createElement("div");
+  loader.classList.add("loader");
+  for (let i = 0; i < 6; i++) {
+    const dot = document.createElement("div");
+    dot.classList.add("loader--dot");
+    loader.appendChild(dot);
+  }
+  const loadingText = document.createElement("div");
+  loadingText.classList.add("loader--text");
+  loader.appendChild(loadingText);
+  container.appendChild(loader);
+  document.body.appendChild(container);
+  setTimeout(() => {
+    container.remove();
+  }, duration);
+}

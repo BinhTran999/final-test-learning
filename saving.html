@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        div.a {
+            white-space: nowrap;
+            width: 50px;
+            overflow: hidden;
+            text-overflow: clip;
+            border: 1px solid #000000;
+        }
+
+        div.b {
+            white-space: nowrap;
+            width: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border: 1px solid #000000;
+        }
+
+        div.c {
+            white-space: nowrap;
+            width: 50px;
+            overflow: hidden;
+            text-overflow: "----";
+            border: 1px solid #000000;
+        }
+
+        h2 {
+        }
+
+        .box {
+            Box-model: border-box;
+            font-size: inherit;
+            flex-grow: 1;
+            height: 200px; border: 3px solid red; margin: 10px 10px; padding: 10px;
+        }
+
+        .box:nth-of-type(1) {
+            overflow: visible;
+            order: 2;
+        }
+        .box:nth-of-type(2) {
+            overflow: hidden;
+            order: 5;
+        }
+        .box:nth-of-type(3) {
+            overflow: clip;
+            order: 1;
+        }
+        .box:nth-of-type(4) {
+            overflow: scroll;
+            order: 3;
+        }
+        .box:nth-of-type(5) {
+            overflow: auto;
+            order: 4;
+        }
+
+
+        p:nth-of-type(2),  p:nth-of-type(4){
+            font-size: 3em;
+        }
+
+        p:nth-of-type(4) {
+            margin-top: 400px;
+        }
+
+        h1:nth-of-type(1) {
+            font-size: 3em;
+        }
+
+        h2 {
+            font-weight: bold;
+            color: red
+        }
+
+        .c1:hover {
+            cursor: crosshair;
+            color: blue;
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+<h1>The text-overflow Property</h1>
+
+<p>The following two divs contains a text that will not fit in the box.</p>
+
+<h2>text-overflow: clip (default):</h2>
+<div class="a">Hello world!</div>
+
+<h2>text-overflow: ellipsis:</h2>
+<div class="b">Hello world!</div>
+
+<h2>text-overflow: "----" (user defined string):</h2>
+<div class="c">Hello world!</div>
+<button class="c1">Hello world!</button>
+
+<p>Overflow: Auto, visible, hidden, clip, scroll<p>
+
+<div class = "combine_box" style="width: 1200px; height: auto; display: flex; flex-wrap: wrap; border: 1px solid black; font-size: 30px; Box-model: border-box; justify-content: space-between; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;" >
+    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+    </div>
+    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+    </div>
+    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+    </div>
+    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+
+    </div>
+    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+    </div>
+</div>
+
+<p>Overflow: </p>
+
+</body>
+</html>
