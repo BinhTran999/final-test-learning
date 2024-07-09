@@ -1,86 +1,141 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        div.a {
-            white-space: nowrap;
-            width: 50px;
-            overflow: hidden;
-            text-overflow: clip;
-            border: 1px solid #000000;
-        }
+  <style>
+    div.a {
+      white-space: nowrap;
+      width: 50px;
+      overflow: hidden;
+      text-overflow: clip;
+      border: 1px solid #000000;
+    }
 
-        div.b {
-            white-space: nowrap;
-            width: 50px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            border: 1px solid #000000;
-        }
+    div.b {
+      white-space: nowrap;
+      width: 50px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border: 1px solid #000000;
+    }
 
-        div.c {
-            white-space: nowrap;
-            width: 50px;
-            overflow: hidden;
-            text-overflow: "----";
-            border: 1px solid #000000;
-        }
+    div.c {
+      white-space: nowrap;
+      width: 50px;
+      overflow: hidden;
+      text-overflow: "----";
+      border: 1px solid #000000;
+    }
 
-        h2 {
-        }
+    h2 {
+    }
 
-        .box {
-            Box-model: border-box;
-            font-size: inherit;
-            flex-grow: 1;
-            height: 200px; border: 3px solid red; margin: 10px 10px; padding: 10px;
-        }
+    .box {
+      Box-model: border-box;
+      font-size: inherit;
+      flex-grow: 1;
+      height: 200px; border: 3px solid red; margin: 10px 10px; padding: 10px;
+    }
 
-        .box:nth-of-type(1) {
-            overflow: visible;
-            order: 2;
-        }
-        .box:nth-of-type(2) {
-            overflow: hidden;
-            order: 5;
-        }
-        .box:nth-of-type(3) {
-            overflow: clip;
-            order: 1;
-        }
-        .box:nth-of-type(4) {
-            overflow: scroll;
-            order: 3;
-        }
-        .box:nth-of-type(5) {
-            overflow: auto;
-            order: 4;
-        }
+    .box:nth-of-type(1) {
+      overflow: visible;
+      order: 2;
+    }
+    .box:nth-of-type(2) {
+      overflow: hidden;
+      order: 5;
+    }
+    .box:nth-of-type(3) {
+      overflow: clip;
+      order: 1;
+    }
+    .box:nth-of-type(4) {
+      overflow: scroll;
+      order: 3;
+    }
+    .box:nth-of-type(5) {
+      overflow: auto;
+      order: 4;
+    }
 
 
-        p:nth-of-type(2),  p:nth-of-type(4){
-            font-size: 3em;
-        }
+    p:nth-of-type(2),  p:nth-of-type(4){
+      font-size: 3em;
+    }
 
-        p:nth-of-type(4) {
-            margin-top: 400px;
-        }
+    p:nth-of-type(4) {
+      margin-top: 400px;
+    }
 
-        h1:nth-of-type(1) {
-            font-size: 3em;
-        }
+    h1:nth-of-type(1) {
+      font-size: 3em;
+    }
 
-        h2 {
-            font-weight: bold;
-            color: red
-        }
+    h2 {
+      font-weight: bold;
+      color: red
+    }
 
-        .c1:hover {
-            cursor: crosshair;
-            color: blue;
-        }
+    .c1:hover {
+      cursor: crosshair;
+      color: blue;
+    }
 
-    </style>
+    div p.text { /*2 elements và 1 class ta có (0A,0B,1C,2D)*/
+      font-size: 14px;
+    }
+
+    #header p { /*1 id và 1 element ta có (0A,1B,0C,1D)*/
+      font-size: 50px;
+    }
+
+    .prioritize-calculation p {
+      margin: 5px;
+      font-size: 1.5rem
+    }
+
+    #prioritize_inline_style_with_id { /*100 point*/
+      color: blue;
+    }
+
+    .priorite_inhert_class {
+      color: yellow;
+    }
+
+    .prioritize_class {
+      color: orange
+    }
+
+    .prioritize_class p {
+      color: black;
+    }
+
+    .prioritize_class_and_id {
+      background-color: cyan !important;
+    }
+
+    #prioritize_class_and_id {
+      background-color: black;
+    }
+
+    .prioritize_calculation {
+      color: purple
+    }
+
+    #header div div p {
+      background-color: #235f64;
+    }
+
+    /*      #header div div div p {
+     //     background-color: red;
+    //      } */
+
+    #header div div div div p {
+      background-color: red;
+    }
+
+
+
+  </style>
 </head>
 <body>
 
@@ -103,20 +158,50 @@
 <p>Overflow: Auto, visible, hidden, clip, scroll<p>
 
 <div class = "combine_box" style="width: 1200px; height: auto; display: flex; flex-wrap: wrap; border: 1px solid black; font-size: 30px; Box-model: border-box; justify-content: space-between; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;" >
-    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
-    </div>
-    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
-    </div>
-    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
-    </div>
-    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+  <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+  </div>
+  <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+  </div>
+  <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+  </div>
+  <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
 
-    </div>
-    <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
-    </div>
+  </div>
+  <div class = "box">The text-overflow property specifies how overflowed content that is not displayed should be signaled to the user. It can be clipped, display an ellipsis (...), or display a custom string <a href="https://www.w3schools.com/css/css_overflow.asp">BBB</a>.
+  </div>
 </div>
 
-<p>Overflow: </p>
+<p>Cách tính độ ưu tiên CSS dựa vào point, inline style và !important: </p>
+
+<div class = "prioritize_calculation"> <!-- 10 point -->
+  <p>Test</p>
+  <div id="prioritize_inline_style_with_id" style="color: red"> <!--1000 + 10 point-->
+    This is a test 1
+  </div>
+  <div class="prioritize_class" style="margin-top: 20px;"> <!-- 10 point -->
+    <div class="priorite_inhert_class"> <!-- 10 + 10 = 20 point-->
+      Trust!
+    </div>
+    <p style = "margin-top: 40px;">
+      Donald Trump
+    </p>
+
+    <div id = "prioritize_class_and_id" class = "prioritize_class_and_id">
+      Joe Biden
+    </div>
+  </div>
+
+</div>
+
+<div id="header" style="margin: 50px;">
+  <div>
+    <div>
+      <div>
+        <p class="text">Welcome my friends</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

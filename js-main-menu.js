@@ -130,6 +130,8 @@ exitDetailItem.addEventListener("click", (e) => {
 });
 
 async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
+  //true
+  //i = 0
   for (let retries = 0; retries < maxRetries; retries++) {
     try {
       const response = await fetch(url);
