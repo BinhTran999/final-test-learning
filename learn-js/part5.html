@@ -27,12 +27,19 @@
         <button onclick="generateTable()">Generate Table</button>
         <div id="table-container"></div>
     </div>
+
+    <button onclick="commentform()">Comment</button>
+    <div id="mylocation"></div>
+
+
 </div>
 
 <script>
     function updateContent() {
         let contentElement = document.getElementById('content');
         contentElement.innerHTML = '<em>This is the updated content.</em>';
+        console.log(contentElement.innerHTML)
+        console.log(contentElement.textContent)
     }
 
     function generateTable() {
@@ -42,7 +49,6 @@
         let table = document.createElement('table');
         table.setAttribute('border', '1');
 
-        // Tạo tiêu đề bảng
         let thead = document.createElement('thead');
         let tr = document.createElement('tr');
         let th1 = document.createElement('th');
@@ -54,7 +60,6 @@
         thead.appendChild(tr);
         table.appendChild(thead);
 
-        // Tạo nội dung bảng
         let tbody = document.createElement('tbody');
         for (let i = 0; i < 5; i++) {
             tr = document.createElement('tr');
@@ -70,6 +75,28 @@
 
         tableContainer.appendChild(table);
     }
+
+    var flag = true;
+    function commentform() {
+        var cform = "<form action='Comment'>"
+            + "Enter Name: <br><input type='text' name='name'/><br>"
+            + "Enter Email: <br><input type='email' name='email'/><br>"
+            + "Enter Comment: <br><textarea rows='5' cols='70'></textarea><br>"
+            + "<input type='submit' value='Post Comment'/>"
+            + "</form>";
+        if (flag) {
+            document.getElementById("mylocation").innerHTML = cform;
+            flag = false;
+        } else {
+            document.getElementById("mylocation").innerHTML = "";
+            flag = true;
+        }
+    }
+
+    //innerHTML cho phép đặt hoặc lấy nội dung HTML của một phần tử.
+    //Khi gán một giá trị cho innerHTML, nội dung HTML sẽ được thay thế hoàn toàn.
+    //Nội dung HTML được thêm vào sẽ được phân tích cú pháp và xử lý như HTML.
+
 </script>
 </body>
 
