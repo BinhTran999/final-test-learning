@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Part 5 - JS</title>
+</head>
+
+<style>
+
+    * {
+        box-model: border-box;
+    }
+
+    body p {
+        font-size: 1.5rem;
+    }
+
+</style>
+
+<body>
+<div class="container">
+    <h1>Welcome to my page</h1>
+    <p id="content">This is the original content.</p>
+    <button onclick="updateContent()">Update Content</button>
+    <div class="container">
+        <h1>Dynamic Table Generation</h1>
+        <button onclick="generateTable()">Generate Table</button>
+        <div id="table-container"></div>
+    </div>
+</div>
+
+<script>
+    function updateContent() {
+        let contentElement = document.getElementById('content');
+        contentElement.innerHTML = '<em>This is the updated content.</em>';
+    }
+
+    function generateTable() {
+        let tableContainer = document.getElementById('table-container');
+        tableContainer.innerHTML = '';
+
+        let table = document.createElement('table');
+        table.setAttribute('border', '1');
+
+        // Tạo tiêu đề bảng
+        let thead = document.createElement('thead');
+        let tr = document.createElement('tr');
+        let th1 = document.createElement('th');
+        th1.textContent = 'Name';
+        let th2 = document.createElement('th');
+        th2.textContent = 'Age';
+        tr.appendChild(th1);
+        tr.appendChild(th2);
+        thead.appendChild(tr);
+        table.appendChild(thead);
+
+        // Tạo nội dung bảng
+        let tbody = document.createElement('tbody');
+        for (let i = 0; i < 5; i++) {
+            tr = document.createElement('tr');
+            let td1 = document.createElement('td');
+            td1.textContent = 'Person ' + (i + 1);
+            let td2 = document.createElement('td');
+            td2.textContent = (20 + i).toString();
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tbody.appendChild(tr);
+        }
+        table.appendChild(tbody);
+
+        tableContainer.appendChild(table);
+    }
+</script>
+</body>
+
+
+
+
+</html>

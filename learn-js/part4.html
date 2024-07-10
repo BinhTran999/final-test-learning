@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Part 4 - JS</title>
+    </head>
+
+    <style>
+        .boxClick:nth-of-type(1) button {
+            display: flex;
+            flex-direction: column;
+            color: blue;
+            border-radius: 5px;
+        }
+
+        .boxClick {
+            margin: 20px;
+        }
+
+        body {
+            display: inline-block;
+        }
+    </style>
+
+    <body>
+        <div class="boxClick">
+            <button> On click here </button>
+            <p>0</p>
+        </div>
+        <div class="boxClick">
+            <button> On click here (Debounce) </button>
+            <p>0</p>
+        </div>
+        <div class="boxClick">
+            <button> On click here (Throttle) </button>
+            <p>0</p>
+        </div>
+    </body>
+
+    <script>
+        const clickList = [...document.querySelectorAll('.boxClick button')]
+        console.log(clickList[0])
+        clickList[0].addEventListener("click", (e) => {
+            let number = parseInt(document.querySelectorAll(".boxClick p")[0].textContent)
+            console.log(number)
+            let current = number
+            current = current + 1;
+            document.querySelectorAll(".boxClick p")[0].textContent = current
+
+        })
+
+        const throttle = (func, delay) => {
+            let isDisplay = false;
+            return function() {
+                if (!isDisplay) {
+                    isDisplay = true;
+                    func.apply(this, arguments);
+                    setTimeout(() => {
+                        isDisplay = false;
+                    }, delay);
+                }
+            };
+        };
+
+        function addNumber3 () {
+            console.log(300)
+            let current = parseInt(document.querySelectorAll(".boxClick p")[2].textContent)
+            current = current + 1;
+
+            document.querySelectorAll(".boxClick p")[2].textContent = current
+        }
+
+        let callBackThrottle = throttle(addNumber3, 10000)
+
+        const debounce = (func, delay) => {
+            let timerId;
+            return function() {
+                console.log("a")
+                timerId = setTimeout(() => {
+                    func.apply(this, arguments)
+                }, delay)
+            };
+        }
+
+        function addNumber2 () {
+            console.log(300)
+            let current = parseInt(document.querySelectorAll(".boxClick p")[1].textContent)
+            current = current + 1;
+            document.querySelectorAll(".boxClick p")[1].textContent = current
+        }
+
+        let callBackDebounce = debounce(addNumber2, 5000)
+
+        function callDe () {
+            callBackDebounce()
+        }
+
+        function callTh () {
+            callBackThrottle()
+        }
+
+        clickList[1].addEventListener("click", callDe)
+
+        clickList[2].addEventListener("click", callTh)
+    </script>
+
+</html>
