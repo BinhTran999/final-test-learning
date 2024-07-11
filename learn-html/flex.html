@@ -31,9 +31,59 @@
             border: 1px double purple;
         }
 
-        .container2, .container3, .container4, .container5 {
+        .container2, .container3, .container4, .container5, .container6, .container0 {
             border: 1px dotted red;
             margin: 15px;
+        }
+
+        .container0 p {
+            background-color: red;
+        }
+
+        .container0 {
+            display: flex;
+        }
+
+        .container0:nth-of-type(1) p:nth-of-type(1) {
+            flex-grow: 2;
+        }
+
+        .container0:nth-of-type(1) p:nth-of-type(2) {
+            flex-grow: 5
+        }
+
+        .container0:nth-of-type(1) p:nth-of-type(3) {
+            flex-grow: 1
+        }
+
+        .container0:nth-of-type(2) p:nth-of-type(1) {
+            flex-shrink: 3;
+            background-color:  red;
+        }
+
+        .container0:nth-of-type(2) p:nth-of-type(2) {
+            flex-shrink: 2;
+        }
+
+        .container0:nth-of-type(2) p:nth-of-type(3) {
+            flex-shrink: 3;
+        }
+
+        .container0:nth-of-type(3) p:nth-of-type(1) {
+            flex-basis: 500px;
+        }
+
+        .container0:nth-of-type(3) p:nth-of-type(2) {
+            flex-basis: 400px;
+        }
+
+        .container0:nth-of-type(3) p:nth-of-type(3) {
+            flex-basis: 300px;
+        }
+
+        .container6 {
+            height: 350px;
+            display: flex;
         }
 
         .container3, .container4 {
@@ -48,7 +98,15 @@
             flex-wrap: wrap-reverse;
         }
 
-        .container3 p, .container4 p {
+        .container6 p {
+            color: white;
+            font-size: 25px;
+            align-self: flex-start; /* auto,flex-start,flex-end,center,baseline */
+            background-color: red;
+            font-weight: 800;
+        }
+
+        .container3 p, .container4 p, .container6 p, .container0 p {
             margin: 20px;
             font-size: 0.95rem;
         }
@@ -73,6 +131,22 @@
     </style>
 </head>
 <body>
+
+<div class="container0">
+    <p>Item new A1</p>
+    <p>Item new B2</p>
+    <p>Item new C3</p>
+</div>
+<div class="container0">
+    <p>Item new A1</p>
+    <p>Item new B2</p>
+    <p>Item new C3</p>
+</div>
+<div class="container0">
+    <p>Item new A1</p>
+    <p>Item new B2</p>
+    <p>Item new C3</p>
+</div>
 <div class="container">
     <div class="item">Item 1</div>
     <div class="item">Item 2</div>
@@ -134,5 +208,17 @@
     <p>Item new E11</p>
     <p>Item new F12</p>
 </div>
+
+<div class="container6">
+    <p>A1</p>
+    <p>B2</p>
+    <p>C3</p>
+    <p>D4</p>
+    <p>E5</p>
+    <p>F6</p>
+    <p>A7</p>
+</div>
+
+
 </body>
 </html>
