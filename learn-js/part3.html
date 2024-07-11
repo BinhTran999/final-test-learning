@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Tương tác với DOM</title>
+    <style>
+        .item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        body {
+            margin: 35px;
+        }
+
+        .queryExample {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tương tác với DOM</h1>
+
+    <div id="item-list"></div>
+
+    <input type="text" id="item-input" placeholder="Nhập nội dung mục" />
+    <button onclick="createItem()">Tạo Mục</button>
+
+    <p>Number of item: </p>
+
+    <div class = "queryExample">Nguyen Van A</div>
+    <div class = "queryExample">Le Thieu B</div>
+    <div class = "queryExample">Long Tran C</div>
+
+
+
+<script>
+
+    let getAllQueryExample1 = document.querySelectorAll(".queryExample")
+    console.log(getAllQueryExample1)
+    console.log(typeof getAllQueryExample1)
+    console.log([...document.querySelectorAll(".queryExample")])
+    console.log("Type of: " + typeof [...document.querySelectorAll(".queryExample")])
+    let getAllQueryExample2 = document.getElementsByClassName("queryExample")
+
+    console.log(getAllQueryExample2)
+
+    console.log("getAllQueryExample1 length (before):", getAllQueryExample1.length); // Output: 3
+    console.log("getAllQueryExample2 length (before):", getAllQueryExample2.length); // Output: 3
+
+    let newElement = document.createElement("div");
+    newElement.classList.add("queryExample");
+    newElement.textContent = "Tran D";
+    document.body.appendChild(newElement);
+    // The NodeList is not updated dynamically
+    console.log("getAllQueryExample1 length (after):", getAllQueryExample1.length); // Output: 3
+    console.log(getAllQueryExample1)
+
+    console.log("getAllQueryExample2 length (after):", getAllQueryExample2.length); // Output: 4
+    console.log(getAllQueryExample2)
+
+    let itemList = [];
+
+    function createItem() {
+        let itemInput = document.getElementById('item-input');
+        let itemText = itemInput.value.trim();
+
+
+
+        if (itemText !== '') {
+            let newItem = createItemElement(itemText);
+            document.getElementById('item-list').appendChild(newItem);
+            itemList.push(itemText);
+            itemInput.value = '';
+        }
+        let numberItem = sessionStorage.getItem("numberItem");
+        if (!numberItem) {
+            sessionStorage.setItem("numberItem")
+        }
+    }
+
+    function createItemElement(text) {
+        let itemElement = document.createElement('div');
+        itemElement.className = 'item';
+
+        let textElement = document.createElement('span');
+        textElement.textContent = text;
+
+        let editButton = document.createElement('button');
+
+        editButton.textContent = 'Chỉnh sửa';
+        editButton.style.margin = "5px 0 0 20px";
+        editButton.onclick = function() {
+            editItem(itemElement, text);
+        };
+
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Xóa';
+        deleteButton.style.margin = "0 0 0 20px"
+        deleteButton.addEventListener("click", (e) =>
+            deleteItem(itemElement, text)
+        );
+
+        itemElement.appendChild(textElement);
+        itemElement.appendChild(editButton);
+        itemElement.appendChild(deleteButton);
+
+        return itemElement;
+    }
+
+    function editItem(itemElement, oldText) {
+        let newText = prompt('Nhập nội dung mới:', oldText);
+        if (newText !== null && newText.trim() !== '') {
+            let textElement = itemElement.querySelector('span');
+            textElement.textContent = newText;
+            let index = itemList.indexOf(oldText);
+            if (index !== -1) {
+                itemList[index] = newText;
+            }
+        }
+    }
+
+    function deleteItem(itemElement, text) {
+        itemElement.remove();
+        let index = itemList.indexOf(text);
+        if (index !== -1) {
+            itemList.splice(index, 1);
+        }
+    }
+</script>
+</body>
+</html>

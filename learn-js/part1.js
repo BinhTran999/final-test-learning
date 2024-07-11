@@ -6,17 +6,19 @@ function outerFunction() {
     var varOutside = "Nam"
     let outsideVar = "Am";
     var varInVar = "She";
+    console.log(varInVar)
     function innerFunction() {
-        let insideVar = "I"
+        var varInVar = "Hse"
+        var insideVar = "I"
+        // let insideVar = "Am"
         console.log(varInVar)
         console.log(outsideVar)
         console.log(insideVar)
     }
-
     innerFunction()
 }
 
-outerFunction()
+ // outerFunction()
 
 //console.log (varOutside)
 //console.log (outsideVar)
@@ -38,13 +40,16 @@ function hostingFunction () {
     // const t = 22;
 }
 
-hostingFunction ()
+// hostingFunction ()
 
 // let
 function refFunction() {
     var x = 5; // x is a function-scoped variable //Function-scope
+    var x = 10;
     let a = 22 // Block-scope
+    a = 32;
     const c = 99; // Khai bao 1 lan khong the doi duoc
+    c = 45
     console.log(a)
     //const c = 44
 
@@ -70,5 +75,10 @@ function refFunction() {
     console.log(y); // Output: 10
 }
 
-refFunction();
+// refFunction();
+
+const a = [1,2,3,4]
+a[0] = 10
+console.log(a)
+
 

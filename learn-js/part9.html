@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Page Structure</title>
+    <style>
+
+        .newElement {
+            color: red;
+        }
+        /* Định nghĩa các class */
+        .header-title {
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-nav {
+            background-color: #f2f2f2;
+            padding: 10px;
+        }
+
+        .header-nav-link {
+            color: #666;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        .content-section {
+            margin-bottom: 30px;
+        }
+
+        .content-section-title {
+            color: #555;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .content-section-text {
+            color: #777;
+            line-height: 1.5;
+        }
+
+        .sidebar-widget {
+            background-color: #f7f7f7;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-widget-title {
+            color: #444;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <h1 class="header-title">My Awesome Website</h1>
+    <nav class="header-nav">
+        <a href="#" class="header-nav-link">Home</a>
+        <a href="#" class="header-nav-link">About</a>
+        <a href="#" class="header-nav-link">Services</a>
+        <a href="#" class="header-nav-link">Contact</a>
+    </nav>
+</div>
+
+<div id="content">
+    <div class="content-section">
+        <h2 class="content-section-title">Welcome to Our Website</h2>
+        <p class="content-section-text">This is the main content section of the page.</p>
+    </div>
+
+    <div class="content-section">
+        <h2 class="content-section-title">Our Services</h2>
+        <p class="content-section-text">Here are the services we offer:</p>
+        <ul>
+            <li class="content-section-text">Service 1</li>
+            <li class="content-section-text">Service 2</li>
+            <li class="content-section-text">Service 3</li>
+        </ul>
+    </div>
+</div>
+
+<div id="sidebar">
+    <div class="sidebar-widget">
+        <h3 class="sidebar-widget-title">About Us</h3>
+        <p class="content-section-text">Learn more about our company and our mission.</p>
+    </div>
+
+    <div class="sidebar-widget">
+        <h3 class="sidebar-widget-title">Recent Posts</h3>
+        <ul>
+            <li class="content-section-text">Blog Post 1</li>
+            <li class="content-section-text">Blog Post 2</li>
+            <li class="content-section-text">Blog Post 3</li>
+        </ul>
+    </div>
+</div>
+
+<div id="footer">
+    <p class="content-section-text" style="color: purple">&copy; 2024 My Awesome Website. All rights reserved.</p>
+</div>
+</body>
+    <script>
+        let firstClass = document.querySelector(".sidebar-widget")
+        console.log(firstClass)
+
+        let firstClass2 = document.querySelector(".sidebar-widget .content-section-text")
+        console.log(firstClass2)
+
+        let entityId = document.getElementById("sidebar")
+        console.log(entityId)
+
+        let entityId2 = document.getElementById("footer2")
+        console.log(entityId2)
+
+        console.log(entityId.children)
+
+        let buttonC = document.querySelectorAll(".header-nav-link")
+        buttonC[0].addEventListener("click", (e) =>{
+            let newClass = document.createElement("div")
+            newClass.className = "newElement"
+            newClass.style.margin = "20px 0 0 0"
+            newClass.textContent = "New element"
+            entityId.appendChild(newClass)
+        })
+
+        buttonC[1].addEventListener("click", (e) => {
+            if (!document.querySelector(".newElement")) {
+                console.log(222)
+            } else {
+                entityId.removeChild(document.querySelector(".newElement"))
+            }
+        })
+
+        buttonC[2].addEventListener("click", () => {
+            console.log(2222)
+            let footerElement = document.getElementById("footer");
+            footerElement.children[0].style.color = "blue";
+        })
+
+
+
+
+
+    </script>
+</html>

@@ -81,7 +81,7 @@
     }
 
     div p.text { /*2 elements và 1 class ta có (0A,0B,1C,2D)*/
-      font-size: 14px;
+      font-size: 14px !important;
     }
 
     #header p { /*1 id và 1 element ta có (0A,1B,0C,1D)*/
@@ -133,6 +133,15 @@
       background-color: red;
     }
 
+    .prioritize_class .priorite_inhert_class {
+      color: red;
+    }
+
+    .priorite_inhert_class .abc {
+      color: blue;
+
+    }
+
 
 
   </style>
@@ -181,6 +190,9 @@
   <div class="prioritize_class" style="margin-top: 20px;"> <!-- 10 point -->
     <div class="priorite_inhert_class"> <!-- 10 + 10 = 20 point-->
       Trust!
+      <div class = "abc">
+        None
+      </div>
     </div>
     <p style = "margin-top: 40px;">
       Donald Trump

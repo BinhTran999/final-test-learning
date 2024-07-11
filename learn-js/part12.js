@@ -1,0 +1,1 @@
+fetch(".../text.txt").then(r => console.log(r))

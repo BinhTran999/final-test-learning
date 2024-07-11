@@ -131,7 +131,7 @@ function arrFunction() {
     // gán một mảng cho một biến mới, thì hai biến này sẽ tham chiếu đến cùng một mảng trong bộ nhớ
     let arrCopy = [...arr]
     console.log("           array: splice")
-    arrCopy.splice(2,3)
+    let arr7 = arrCopy.splice(2,3)
     console.log(arr)
     console.log(arrCopy)
 
