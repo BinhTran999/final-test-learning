@@ -3,6 +3,14 @@
 <head>
     <style>
 
+        .container7 p:nth-of-type(1):hover {
+            color: red;
+        }
+
+        .container7 p:nth-of-type(2):active {
+            color: blue;
+        }
+
         .container5 p:nth-of-type(1) {
             order: 2
         }
@@ -220,7 +228,7 @@
 </div>
 
 <div class="container7">
-    <p>Item new A1</p>
+    <p>Hover</p>
     <p>Item new B2</p>
     <p>Item new C3</p>
     <p>Item new D4</p>
@@ -234,6 +242,23 @@
     <p>Item new F12</p>
 </div>
 
+<!-- https://viblo.asia/p/tim-hieu-va-van-dung-pseudo-pseudo-class-trong-css-phan-1-maGK7V7D5j2 -->
 
 </body>
+
+<script>
+    for (let i = 1; i< 10; i++){
+        const response = fetch('http://10.63.161.172:3001/api/get-product', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                page: 1
+            })
+        });
+        console.log(response.json)
+
+    }
+</script>
 </html>

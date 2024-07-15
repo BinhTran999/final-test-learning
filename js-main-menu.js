@@ -1,7 +1,7 @@
 const sabanAcc = document.getElementById("number_market");
 const services_type_click = document.getElementById("services-product-type");
 const facilities_type_click = document.getElementById(
-  "facilities-product-type"
+    "facilities-product-type"
 );
 const itemArr = [...document.querySelectorAll(".item .img-html")];
 const itemNameArr = [...document.querySelectorAll(".item .text-content")];
@@ -68,11 +68,11 @@ divItems.forEach((item, index) => {
     itemSopBox.style.display = "block";
     itemImage.style.backgroundImage = itemArr[index].style.backgroundImage;
     document.querySelector("#name-item").textContent =
-      "Name : " + itemNameArr[index].textContent;
+        "Name : " + itemNameArr[index].textContent;
     document.querySelector("#description-item").textContent =
-      "Description : " + itemDescriptionArr[index].textContent;
+        "Description : " + itemDescriptionArr[index].textContent;
     document.querySelector("#price-item").textContent =
-      "Price : " + itemPriceArr[index].textContent;
+        "Price : " + itemPriceArr[index].textContent;
     newArrItem = initNewArrItem(index);
     cacheAr = newArrItem;
   });
@@ -162,9 +162,9 @@ window.onload = async function () {
   let data = await funcRequest("http://10.63.161.172:3001/api/get-product");
   numberPage = Math.round(data.data.total / CONFIG_PAGE.PAGE_SIZE) + 1;
   for (
-    let i = 0;
-    i < data.data.total / Object.keys(data.data.items).length + 1;
-    i++
+      let i = 0;
+      i < data.data.total / Object.keys(data.data.items).length + 1;
+      i++
   ) {
     const urlItems = "http://10.63.161.172:3001/api/get-product?page=" + i;
     dataItems = await funcRequest(urlItems);
@@ -187,9 +187,9 @@ async function getEnermyData() {
   const data = await funcRequest("http://10.63.161.172:3001/api/get-product");
 
   for (
-    let i = 0;
-    i < data.data.total / Object.keys(data.data.items).length + 1;
-    i++
+      let i = 0;
+      i < data.data.total / Object.keys(data.data.items).length + 1;
+      i++
   ) {
     const urlItems = "http://10.63.161.172:3001/api/get-product?page=" + i;
     dataItems = await funcRequest(urlItems);
@@ -215,13 +215,13 @@ async function serviceClick() {
   }
   let currentNumberPage = 1;
   let nPage =
-    Math.round(Object.keys(services.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
+      Math.round(Object.keys(services.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
   changeStartPage();
   dataPage(currentNumberPage, services.data);
   allData = services.data;
   CURRENT_PAGE = 1;
   numberPage =
-    Math.round(Object.keys(services.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
+      Math.round(Object.keys(services.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
 }
 
 function changeStartPage() {
@@ -340,13 +340,13 @@ async function faciltitesClick() {
   }
   let currentNumberPage = 1;
   let nPage =
-    Math.round(Object.keys(faciltites.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
+      Math.round(Object.keys(faciltites.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
   changeStartPage();
   dataPage(currentNumberPage, faciltites.data);
   allData = faciltites.data;
   CURRENT_PAGE = 1;
   numberPage =
-    Math.round(Object.keys(faciltites.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
+      Math.round(Object.keys(faciltites.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
 }
 
 function ArrToDic(data) {
@@ -487,7 +487,7 @@ function createTable(arr) {
         const cell = document.createElement("td");
         cell.style.border = "1px solid black";
         cell.textContent =
-          parseInt(arr[i][0].price) * parseInt(arr[i][0].quanlity) + " VND";
+            parseInt(arr[i][0].price) * parseInt(arr[i][0].quanlity) + " VND";
         row.appendChild(cell);
         cell.style.width = "150px";
         cell.style.height = "20px";
@@ -531,16 +531,16 @@ changeToSuccessScreen.addEventListener("click", (e) => {
 });
 
 searchInput.addEventListener(
-  "input",
-  throttledDebounce(
-    () => {
-      const searchTerm = searchInput.value;
-      console.log(searchTerm);
-      searchKeyWord(searchTerm);
-    },
-    500,
-    2000
-  )
+    "input",
+    throttledDebounce(
+        () => {
+          const searchTerm = searchInput.value;
+          console.log(searchTerm);
+          searchKeyWord(searchTerm);
+        },
+        500,
+        2000
+    )
 );
 
 function throttledDebounce(func, delay, maxDelay) {
@@ -585,7 +585,7 @@ function searchKeyWord(content) {
   }
   CURRENT_PAGE = 1;
   numberPage = Math.round(
-    Object.keys(searchData).length / CONFIG_PAGE.PAGE_SIZE
+      Object.keys(searchData).length / CONFIG_PAGE.PAGE_SIZE
   );
 }
 
