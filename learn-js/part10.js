@@ -10,7 +10,7 @@ const myPromise = new Promise((resolve, reject) => {
         } else {
             reject("Miss");// Tác vụ bất đồng bộ đã thất bại,
         }
-    }, 2000);
+    }, 20000);
     console.log(222222) // Tinh bat dong bo
 });
 

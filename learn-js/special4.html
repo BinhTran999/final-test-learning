@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Variables in JavaScript</title>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
+            --font-size: calc(16px + 0.1rem);
+        }
+
+        body {
+            font-size: var(--font-size);
+            color: var(--primary-color);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+<h1>CSS Variables in JavaScript</h1>
+<p>The primary color is <span id="primary-color-value">blue</span>.</p>
+<p>The secondary color is <span id="secondary-color-value">gray</span>.</p>
+<p>The font size is <span id="font-size-value">16px</span>.</p>
+<button id="change-theme-btn">Change Theme</button>
+
+<script>
+    const root = document.documentElement;
+    const changeThemeBtn = document.getElementById('change-theme-btn');
+
+    const primaryColorValue = document.getElementById('primary-color-value');
+    const secondaryColorValue = document.getElementById('secondary-color-value');
+    const fontSizeValue = document.getElementById('font-size-value');
+
+    primaryColorValue.textContent = getComputedStyle(root).getPropertyValue('--primary-color');
+    secondaryColorValue.textContent = getComputedStyle(root).getPropertyValue('--secondary-color');
+    fontSizeValue.textContent = getComputedStyle(root).getPropertyValue('--font-size');
+
+    changeThemeBtn.addEventListener('click', () => {
+        root.style.setProperty('--primary-color', getComputedStyle(root).getPropertyValue('--secondary-color'));
+        root.style.setProperty('--secondary-color', getComputedStyle(root).getPropertyValue('--primary-color'));
+        root.style.setProperty('--font-size', getComputedStyle(root).getPropertyValue('--font-size') === '16px' ? '18px' : '16px');
+
+        // Update the displayed values
+        primaryColorValue.textContent = getComputedStyle(root).getPropertyValue('--primary-color');
+        secondaryColorValue.textContent = getComputedStyle(root).getPropertyValue('--secondary-color');
+        fontSizeValue.textContent = getComputedStyle(root).getPropertyValue('--font-size');
+    });
+</script>
+</body>
+</html>

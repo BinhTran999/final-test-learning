@@ -9,10 +9,6 @@ const itemPriceArr = [...document.querySelectorAll(".item .price")];
 const itemDescriptionArr = [...document.querySelectorAll(".item .description")];
 const itemTypeArr = [...document.querySelectorAll(".item .type")];
 const shoppingItemList = document.getElementById("myBox");
-const paginationNumbers = document.getElementById("pagination-numbers");
-const paginatedList = document.getElementById("paginated-list");
-const nextButton = document.getElementById("next-button");
-const prevButton = document.getElementById("prev-button");
 
 const exitDetailItem = document.querySelector("#exitAItem");
 const amountAllItemShop = document.querySelector("#amout");
@@ -41,8 +37,6 @@ const itemImage = document.querySelector("#imageAItem");
 const divItemsShopping = document.querySelector("#shopping");
 const clickAdd = document.querySelector("#add-to-cart");
 // let CacheData = {};
-let cacheArrays = [];
-var cacheAr = null;
 let allData;
 let numberPage;
 const CONFIG_PAGE = {
@@ -65,7 +59,7 @@ divItems.forEach((item, index) => {
   item.addEventListener("click", (e) => {
     let i = 0;
     shoppingItemList.style.display = "none";
-    itemSopBox.style.display = "block";
+    itemABox.style.display = "block";
     itemImage.style.backgroundImage = itemArr[index].style.backgroundImage;
     document.querySelector("#name-item").textContent =
         "Name : " + itemNameArr[index].textContent;
@@ -83,9 +77,9 @@ itemABox.addEventListener("click", function (event) {
 });
 
 document.addEventListener("click", function (event) {
-  if (!itemABox.contains(event.target) && isItemDisplay != 0) {
+  if (!itemABox.contains(event.target) && isItemDisplay !== 0) {
     isItemDisplay = 0;
-    itemSopBox.style.display = "none";
+    itemABox.style.display = "none";
   } else {
     isItemDisplay++;
   }
@@ -93,48 +87,57 @@ document.addEventListener("click", function (event) {
 
 window.number_item = 300;
 
-function saveItemToLocalStorage(data) {
-  localStorage.setItem("itemData", JSON.stringify(data));
+
+function saveItemToLocalStorage(cacheName, data) {
+  localStorage.setItem(cacheName, JSON.stringify(data));
 }
 
-function saveNumberItemToLocalStorage(numberItem) {
-  localStorage.setItem("numberItemData", JSON.stringify(numberItem));
-}
 
-function getItemFromLocalStorage() {
-  const list = localStorage.getItem("itemData");
-  return list ? JSON.parse(list) : [];
-}
-
-function getNumberItemFromLocalStorage() {
-  const number = localStorage.getItem("numberItemData");
-  return number ? parseInt(JSON.parse(number)) : 0;
+function getItemFromLocalStorage(cacheName) {
+  const number = localStorage.getItem(cacheName);
+  console.log(JSON.parse(number))
+  return number ? JSON.parse(number) : 0;
 }
 
 clickAdd.addEventListener("click", (e) => {
   let currentValue = parseInt(sabanAcc.textContent);
   currentValue++;
-  number_item = currentValue;
-  sabanAcc.textContent = currentValue;
-  saveNumberItemToLocalStorage(currentValue);
+  sabanAcc.textContent = currentValue.toString();
+  saveItemToLocalStorage("numberItemData", currentValue);
   shoppingItemList.style.display = "none";
   cacheArrays.push(cacheAr);
-  saveItemToLocalStorage(cacheArrays);
+  saveItemToLocalStorage("itemData", cacheArrays);
+  console.log(cacheArrays)
 });
 
-sabanAcc.textContent = getNumberItemFromLocalStorage();
-cacheArrays = getItemFromLocalStorage();
+sabanAcc.textContent = getItemFromLocalStorage("numberItemData").toString();
+
 
 exitDetailItem.addEventListener("click", (e) => {
-  itemSopBox.style.display = "none";
+  itemABox.style.display = "none";
 });
 
-async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
+async function funcRequest(url,type="", number_page=0, searchName = "") {
   //true
   //i = 0
+  createLoader(1700);
+  const maxRetries = 10
+  const retryDelay = 50
   for (let retries = 0; retries < maxRetries; retries++) {
     try {
-      const response = await fetch(url);
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          page:number_page, size:12, data: {
+            name: searchName,
+            type: type
+          }
+        })
+      });
       if (!response.ok) {
         if (response.status === 500) {
           await new Promise((resolve) => setTimeout(resolve, retryDelay));
@@ -142,8 +145,7 @@ async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
         }
         throw new Error(`HTTP error ${response.status}`);
       }
-      const data = await response.json();
-      return data;
+      return await response.json();
     } catch (error) {
       console.error("Error:", error);
       if (error.message === "HTTP error 500") {
@@ -155,73 +157,49 @@ async function funcRequest(url, maxRetries = 10, retryDelay = 5) {
       }
     }
   }
+
 }
+
+let typeCache = ""
 
 window.onload = async function () {
-  allData = [];
-  let data = await funcRequest("http://10.63.161.172:3001/api/get-product");
-  numberPage = Math.round(data.data.total / CONFIG_PAGE.PAGE_SIZE) + 1;
-  for (
-      let i = 0;
-      i < data.data.total / Object.keys(data.data.items).length + 1;
-      i++
-  ) {
-    const urlItems = "http://10.63.161.172:3001/api/get-product?page=" + i;
-    dataItems = await funcRequest(urlItems);
-    allData.push(...dataItems.data.items);
-  }
-  for (let i = 0; i < CONFIG_PAGE.PAGE_SIZE; i++) {
-    let bimg = "url('" + allData[i].image + "')";
-    itemArr[i].style.backgroundImage = bimg;
-    itemArr[i].style.backgroundSize = "100% 100%";
-    itemNameArr[i].innerHTML = allData[i].name;
-    itemPriceArr[i].innerHTML = allData[i].price + " VND";
-    itemDescriptionArr[i].innerHTML = allData[i].description;
-    itemTypeArr[i].innerHTML = allData[i].type;
-  }
-  data = allData;
+  console.log (cacheArrays)
+  let resData = await funcRequest("http://10.63.161.172:3001/api/get-product");
+  let data = resData.data.items
+  numberPage =
+      Math.round(resData.data.total / CONFIG_PAGE.PAGE_SIZE) + 1;
+  await dataPage(data)
 };
 
-async function getEnermyData() {
-  allData = [];
-  const data = await funcRequest("http://10.63.161.172:3001/api/get-product");
-
-  for (
-      let i = 0;
-      i < data.data.total / Object.keys(data.data.items).length + 1;
-      i++
-  ) {
-    const urlItems = "http://10.63.161.172:3001/api/get-product?page=" + i;
-    dataItems = await funcRequest(urlItems);
-    allData.push(...dataItems.data.items);
-  }
-  return allData;
+async function typeClick(aType) {
+  typeCache = aType
+  let resData = await funcRequest("http://10.63.161.172:3001/api/get-product", typeCache, 0);
+  CURRENT_PAGE = 1;
+  changeStartPage();
+  await dataPage(CURRENT_PAGE, aType);
+  numberPage =
+      Math.round(resData.data.total / CONFIG_PAGE.PAGE_SIZE) + 1;
+  console.log(numberPage)
 }
 
-async function processData() {
-  const data = await getEnermyData();
-  cachedData = data;
-  return cachedData;
+async function reactionType(t) {
+  console.log(typeCache)
+  if (typeCache === t) {
+    typeCache = ""
+    await typeClick("")
+  } else {
+    typeCache = t
+  }
 }
 
 async function serviceClick() {
-  let services = {};
-  services.data = new Array();
-  let data = await processData();
-  for (let i = 0; i < Object.keys(data).length; i++) {
-    if (data[i].type === "service") {
-      services.data.push(data[i]);
-    }
-  }
-  let currentNumberPage = 1;
-  let nPage =
-      Math.round(Object.keys(services.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
-  changeStartPage();
-  dataPage(currentNumberPage, services.data);
-  allData = services.data;
-  CURRENT_PAGE = 1;
-  numberPage =
-      Math.round(Object.keys(services.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
+  await reactionType("service")
+  await typeClick("service")
+}
+
+async function faciltitesClick() {
+  await reactionType("facility")
+  await typeClick("facility")
 }
 
 function changeStartPage() {
@@ -234,23 +212,35 @@ function changeStartPage() {
   thirdPage.textContent = 2;
 }
 
-function dataPage(CURRENT_PAGE, data) {
+async function dataPage(CURRENT_PAGE, type="", keyword="") {
+  t = typeCache
+  console.log(t)
+  let resData = await funcRequest("http://10.63.161.172:3001/api/get-product", t, CURRENT_PAGE-1, keyword);
+  if (resData.data.total === 0) {
+    for (let i = 0; i < CONFIG_PAGE.PAGE_SIZE; i++) {
+      divItems[i].style.display = "none";
+    }
+    return;
+  }
+  let data = resData.data.items
   let n;
-  const startIndex = (CURRENT_PAGE - 1) * CONFIG_PAGE.PAGE_SIZE;
+  const startIndex = (CURRENT_PAGE-1) * CONFIG_PAGE.PAGE_SIZE;
   for (let i = 0; i < CONFIG_PAGE.PAGE_SIZE; i++) {
-    let bimg = "url('" + data[startIndex + i].image + "')";
+    let bimg = "url('" + data[i].image + "')";
     itemArr[i].style.backgroundImage = bimg;
     itemArr[i].style.backgroundSize = "100% 100%";
-    itemNameArr[i].innerHTML = data[startIndex + i].name;
-    itemPriceArr[i].innerHTML = data[startIndex + i].price + " VND";
-    itemDescriptionArr[i].innerHTML = data[startIndex + i].description;
-    itemTypeArr[i].innerHTML = data[startIndex + i].type;
+    itemNameArr[i].innerHTML = data[i].name;
+    itemPriceArr[i].innerHTML = data[i].price + " VND";
+    itemDescriptionArr[i].innerHTML = data[i].description;
+    itemTypeArr[i].innerHTML = data[i].type;
     n = startIndex + i + 1;
-    if (i + startIndex === Object.keys(data).length - 1) {
+    if (i + startIndex === resData.data.total - 1) {
+      console.log("AAAAAAAAAAAAAAAAAAAAA")
       break;
     }
   }
-  if (n === Object.keys(data).length) {
+
+  if (n === resData.data.total) {
     for (let i = n % 12; i < CONFIG_PAGE.PAGE_SIZE; i++) {
       divItems[i].style.display = "none";
     }
@@ -261,7 +251,7 @@ function dataPage(CURRENT_PAGE, data) {
   }
 }
 
-thirdPage.addEventListener("click", (e) => {
+thirdPage.addEventListener("click", async (e) => {
   if (CURRENT_PAGE === 1) {
     onePage.style.display = "block";
     prevPage.style.display = "block";
@@ -275,10 +265,10 @@ thirdPage.addEventListener("click", (e) => {
   onePage.textContent = CURRENT_PAGE - 1;
   twoPage.textContent = CURRENT_PAGE;
   thirdPage.textContent = CURRENT_PAGE + 1;
-  dataPage(CURRENT_PAGE, allData);
+  await dataPage(CURRENT_PAGE, typeCache);
 });
 
-nextPage.addEventListener("click", (e) => {
+nextPage.addEventListener("click", async (e) => {
   if (CURRENT_PAGE === 1) {
     onePage.style.display = "block";
     prevPage.style.display = "block";
@@ -292,10 +282,10 @@ nextPage.addEventListener("click", (e) => {
   onePage.textContent = CURRENT_PAGE - 1;
   twoPage.textContent = CURRENT_PAGE;
   thirdPage.textContent = CURRENT_PAGE + 1;
-  dataPage(CURRENT_PAGE, allData);
+  await dataPage(CURRENT_PAGE, typeCache);
 });
 
-onePage.addEventListener("click", (e) => {
+onePage.addEventListener("click", async (e) => {
   if (CURRENT_PAGE === 2) {
     onePage.style.display = "none";
     prevPage.style.display = "none";
@@ -309,10 +299,10 @@ onePage.addEventListener("click", (e) => {
   onePage.textContent = CURRENT_PAGE - 1;
   twoPage.textContent = CURRENT_PAGE;
   thirdPage.textContent = CURRENT_PAGE + 1;
-  dataPage(CURRENT_PAGE, allData);
+  await dataPage(CURRENT_PAGE, typeCache);
 });
 
-prevPage.addEventListener("click", (e) => {
+prevPage.addEventListener("click", async (e) => {
   if (CURRENT_PAGE === 2) {
     onePage.style.display = "none";
     prevPage.style.display = "none";
@@ -326,111 +316,91 @@ prevPage.addEventListener("click", (e) => {
   onePage.textContent = CURRENT_PAGE - 1;
   twoPage.textContent = CURRENT_PAGE;
   thirdPage.textContent = CURRENT_PAGE + 1;
-  dataPage(CURRENT_PAGE, allData);
+  await dataPage(CURRENT_PAGE, typeCache);
 });
-
-async function faciltitesClick() {
-  let faciltites = {};
-  faciltites.data = new Array();
-  let data = await processData();
-  for (let i = 0; i < Object.keys(data).length; i++) {
-    if (data[i].type === "facility") {
-      faciltites.data.push(data[i]);
-    }
-  }
-  let currentNumberPage = 1;
-  let nPage =
-      Math.round(Object.keys(faciltites.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
-  changeStartPage();
-  dataPage(currentNumberPage, faciltites.data);
-  allData = faciltites.data;
-  CURRENT_PAGE = 1;
-  numberPage =
-      Math.round(Object.keys(faciltites.data).length / CONFIG_PAGE.PAGE_SIZE) + 1;
-}
 
 function ArrToDic(data) {
+  console.log(cacheArrays)
   let frequencyDict = {};
   for (let item of data) {
     if (frequencyDict[item[0]]) {
-      frequencyDict[item[0]].quanlity += 1;
+      frequencyDict[item[0]].quantity += 1;
     } else {
-      let dicData = {
+      frequencyDict[item[0]] = {
         name: item[0],
         type: item[1],
-        quanlity: 1,
+        quantity: 1,
         price: item[2],
       };
-      frequencyDict[item[0]] = dicData;
     }
   }
+  console.log(frequencyDict)
   return frequencyDict;
 }
 
 const listShopItem = document.querySelector(".list_shop_item");
-
+let cacheArrays = []
+console.log(cacheArrays)
 divItemsShopping.addEventListener("click", (e) => {
+
   const tableToRemove = listShopItem.querySelector("table");
   const itemDic = ArrToDic(cacheArrays);
   if (shoppingItemList.style.display === "none") {
     shoppingItemList.style.display = "block";
-    var arr = [];
-    for (var key in itemDic) {
-      if (itemDic.hasOwnProperty(key)) {
-        arr.push([itemDic[key]]);
-      }
-    }
-    let table = createTable(arr);
+  console.log(itemDic)
+    let table = createTable2(itemDic);
     listShopItem.appendChild(table);
     let totalPrice = 0;
-    for (item of arr) {
-      let amountWithoutSuffix = item[0].price.slice(0, -4);
+    for (let item in itemDic) {
+      console.log(itemDic[item].price.slice(0, -4))
+      let amountWithoutSuffix = itemDic[item].price.slice(0, -4);
       let amountNumber = parseInt(amountWithoutSuffix);
-      let numberOfItem = parseInt(item[0].quanlity);
+      let numberOfItem = parseInt(itemDic[item].quantity);
       totalPrice += amountNumber * numberOfItem;
     }
-    console.log(cacheArrays);
-    amountAllItemShop.textContent = totalPrice + " VND";
     const rows = listShopItem.getElementsByTagName("tr");
-    deleteButtonItems.forEach((item, index) => {
-      item.addEventListener("click", () => {
-        let startTime = performance.now();
-        console.log(index);
-        if (listShopItem.getElementsByTagName("table")[0].rows.length === 1) {
-          listShopItem.removeChild(table);
-          cacheArrays = [];
-          shoppingItemList.style.display = "none";
-          deleteButtonItems = [];
-          let currentValue = parseInt(sabanAcc.textContent);
-          currentValue = 0;
-          number_item = currentValue;
-          sabanAcc.textContent = currentValue;
-          saveItemToLocalStorage([]);
-          saveNumberItemToLocalStorage(0);
-        } else {
-          listShopItem.getElementsByTagName("table")[0].deleteRow(index);
-          const deleteItemName = cacheArrays[index][0];
-          const newcacheArrays = cacheArrays.filter(function (item) {
-            return item[0] != deleteItemName;
-          });
-          cacheArrays = newcacheArrays;
-          deleteButtonItems.splice(index, 1);
-          arr.splice(index, 1);
-          let currentValue = parseInt(sabanAcc.textContent);
-          currentValue -= itemDic[deleteItemName].quanlity;
-          number_item = currentValue;
-          sabanAcc.textContent = currentValue;
-          saveItemToLocalStorage(arr);
-          saveNumberItemToLocalStorage(currentValue);
-        }
-        let endTime = performance.now();
-        console.log(endTime - startTime);
+    let allDeleteButtons = listShopItem.querySelectorAll(".delete_item")
+    allDeleteButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const row = btn.closest('tr');
+        let nameElement = row.querySelector(".name_item").textContent.split("(")[0]
+        delete itemDic[nameElement];
+        //
+        //
+        cacheArrays = Object.values(itemDic).map(item => [item.name, item.type, item.quantity, item.price]);
+        saveItemToLocalStorage("itemData", cacheArrays)
+        console.log(getItemFromLocalStorage("itemData"))
+        row.remove();
       });
     });
+    console.log(getItemFromLocalStorage("itemData"))
+    // for (let i in rows) {
+    //   let buttons = rows[i].querySelectorAll(".delete_item")
+    //   let nameElement = rows[i].querySelector(".name_item").textContent.split("(")[0];
+    //   console.log(itemDic)
+    //   console.log(itemDic[nameElement])
+    //   buttons.addEventListener("click", (e) => {
+    //     if (rows.length === 1) {
+    //       listShopItem.removeChild(table);
+    //       shoppingItemList.style.display = "none";
+    //     } else {
+    //       console.log(itemDic)
+    //       listShopItem.getElementsByTagName("table")[0].deleteRow(i)
+    //       console.log(itemDic["nameElement"])
+    //       delete itemDic["nameElement"];
+    //       console.log(itemDic)
+    //
+    //     }
+    //     i--;
+    //   })
+    // }
+
   } else {
-    deleteButtonItems = [];
+    console.log(322222)
     shoppingItemList.style.display = "none";
+    console.log(333333333)
   }
+  tableToRemove.remove();
 
   // deleteButtonItems.forEach((item, index) => {
   //   item.addEventListener("click", () => {
@@ -463,22 +433,24 @@ divItemsShopping.addEventListener("click", (e) => {
   //     console.log(endTime - startTime);
   //   });
   // });
-  tableToRemove.remove();
+
 });
 
-function createTable(arr) {
-  const numRows = Object.keys(arr).length;
+function createTable2(dict) {
   const table = document.createElement("table");
   table.style.borderCollapse = "collapse";
   table.style.border = "1px solid black";
-  for (let i = 0; i < numRows; i++) {
+  for (let item in dict) {
+    let dictElement = dict[item]
+    console.log(dictElement)
     const row = document.createElement("tr");
     row.style.border = "1px solid black";
-    for (let j = 0; j < 3; j++) {
+    for (let j = 0; j < Object.keys(dictElement).length; j++) {
       if (j === 0) {
         const cell = document.createElement("td");
+        cell.className = "name_item"
         cell.style.border = "1px solid black";
-        cell.textContent = arr[i][0].name + "(x" + arr[i][0].quanlity + ")";
+        cell.textContent = dictElement.name + "(x" + dictElement.quantity + ")";
         row.appendChild(cell);
         cell.style.width = "150px";
         cell.style.height = "20px";
@@ -487,14 +459,15 @@ function createTable(arr) {
         const cell = document.createElement("td");
         cell.style.border = "1px solid black";
         cell.textContent =
-            parseInt(arr[i][0].price) * parseInt(arr[i][0].quanlity) + " VND";
+            parseInt(dictElement.price) * parseInt(dictElement.quantity) + " VND";
         row.appendChild(cell);
         cell.style.width = "150px";
         cell.style.height = "20px";
       }
       if (j === 2) {
         const cell = document.createElement("button");
-        cell.rowIndex = i;
+        // cell.rowIndex = i;
+        cell.className = "delete_item"
         row.appendChild(cell);
         cell.textContent = "delete";
         cell.style.backgroundColor = "black";
@@ -503,11 +476,60 @@ function createTable(arr) {
         deleteButtonItems.push(cell);
       }
     }
-    table.appendChild(row);
+    table.appendChild(row)
   }
-  return table;
+  return table
 }
 
+// function createTable(arr) {
+//   const numRows = Object.keys(arr).length;
+//   const table = document.createElement("table");
+//   table.style.borderCollapse = "collapse";
+//   table.style.border = "1px solid black";
+//   for (let i = 0; i < numRows; i++) {
+//     const row = document.createElement("tr");
+//     row.style.border = "1px solid black";
+//     for (let j = 0; j < 3; j++) {
+//       if (j === 0) {
+//         const cell = document.createElement("td");
+//         cell.style.border = "1px solid black";
+//         cell.textContent = arr[i][0].name + "(x" + arr[i][0].quantity + ")";
+//         row.appendChild(cell);
+//         cell.style.width = "150px";
+//         cell.style.height = "20px";
+//       }
+//       if (j === 1) {
+//         const cell = document.createElement("td");
+//         cell.style.border = "1px solid black";
+//         cell.textContent =
+//             parseInt(arr[i][0].price) * parseInt(arr[i][0].quantity) + " VND";
+//         row.appendChild(cell);
+//         cell.style.width = "150px";
+//         cell.style.height = "20px";
+//       }
+//       if (j === 2) {
+//         const cell = document.createElement("button");
+//         cell.rowIndex = i;
+//         cell.className = "delete_item"
+//         row.appendChild(cell);
+//         cell.textContent = "delete";
+//         cell.style.backgroundColor = "black";
+//         cell.style.background = "white";
+//         cell.style.width = "100px";
+//         deleteButtonItems.push(cell);
+//       }
+//     }
+//     table.appendChild(row);
+//   }
+//   return table;
+// }
+
+let deleteItems = document.querySelectorAll(".table_item .delete_item");
+deleteItems.forEach((item, index) => {
+  item.addEventListener("click", (e) => {
+    console.log(index)
+  });
+});
 closeItemList.addEventListener("click", (e) => {
   const tableToRemove = listShopItem.querySelector("table");
   tableToRemove.remove();
@@ -535,11 +557,12 @@ searchInput.addEventListener(
     throttledDebounce(
         () => {
           const searchTerm = searchInput.value;
+          CURRENT_PAGE = 1;
           console.log(searchTerm);
           searchKeyWord(searchTerm);
         },
         500,
-        2000
+        501
     )
 );
 
@@ -562,36 +585,35 @@ function throttledDebounce(func, delay, maxDelay) {
   };
 }
 
-function searchKeyWord(content) {
-  let searchData = [];
-  if (content != "") {
-    for (let i = 0; i < Object.keys(allData).length; i++) {
-      if (allData[i].name.includes(content)) {
-        searchData.push(allData[i]);
-      }
-    }
-  } else {
-    searchData = allData;
-  }
-  let currentNumberPage = 1;
+async function searchKeyWord(content) {
+  let searching = await funcRequest("http://10.63.161.172:3001/api/get-product", "", 0, content)
+  let CURRENT_PAGE = 1;
   changeStartPage();
-  dataPage(currentNumberPage, searchData);
-  if (Object.keys(searchData).length < CONFIG_PAGE.PAGE_SIZE) {
+  await dataPage(CURRENT_PAGE, "", content);
+  if (searching.data.total  === 0) {
+    onePage.style.display = "none";
+    prevPage.style.display = "none";
+    twoPage.style.display = "none";
+    thirdPage.style.display = "none";
+    nextPage.style.display = "none";
+  }
+
+  if (searching.data.total < CONFIG_PAGE.PAGE_SIZE) {
     onePage.style.display = "none";
     prevPage.style.display = "none";
     twoPage.style.display = "block";
     thirdPage.style.display = "none";
     nextPage.style.display = "none";
   }
-  CURRENT_PAGE = 1;
   numberPage = Math.round(
-      Object.keys(searchData).length / CONFIG_PAGE.PAGE_SIZE
+      searching.data.total / CONFIG_PAGE.PAGE_SIZE
   );
+  CURRENT_PAGE = 1;
 }
 
 searchButton.addEventListener("click", async function () {
   const content = searchInput.value;
-  searchKeyWord(content);
+  await searchKeyWord(content);
 });
 
 function createLoader(duration = 2000) {
