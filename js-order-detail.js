@@ -4,43 +4,63 @@ const detailBox = document.querySelector("#resultBox");
 const orderNumber = document.querySelector("#choose-search-list-detail p2");
 const total = document.querySelector(".grid-items p3");
 
-async function funcRequest(url, maxRetries = 20, retryDelay = 5) {
-  let retries = 0;
-  while (true) {
+async function funcRequest() {
+  //true
+  //i = 0
+  const maxRetries = 10
+  const retryDelay = 50
+  for (let retries = 0; retries < maxRetries; retries++) {
     try {
-      const response = await fetch(url);
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "page": 0,
+          "size": 152,
+          "data":{
+            "orderId": getItemFromLocalStorage("orderID")
+          }
+        })
+      });
       if (!response.ok) {
-        if (response.status === 500 && retries < maxRetries) {
+        if (response.status === 500) {
           await new Promise((resolve) => setTimeout(resolve, retryDelay));
-          retries++;
           continue;
         }
         throw new Error(`HTTP error ${response.status}`);
       }
-      const data = await response.json();
-      return data;
+      return await response.json();
     } catch (error) {
       console.error("Error:", error);
-      if (error.message === "HTTP error 500" && retries < maxRetries) {
+      if (error.message === "HTTP error 500") {
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
-        retries++;
         continue;
       }
-      throw error;
+      if (retries === maxRetries - 1) {
+        throw error;
+      }
     }
   }
+
 }
 
-function getRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+
+function saveItemToLocalStorage(cacheName, data) {
+  localStorage.setItem(cacheName, JSON.stringify(data));
 }
 
-function getNumberItemFromLocalStorage() {
-  const number = localStorage.getItem("numberItemData");
-  return number ? parseInt(JSON.parse(number)) : 0;
+
+function getItemFromLocalStorage(cacheName) {
+  const number = localStorage.getItem(cacheName);
+  console.log(JSON.parse(number))
+  return number ? JSON.parse(number) : 0;
 }
 
-numberItem = getNumberItemFromLocalStorage();
+console.log(getItemFromLocalStorage("orderID"))
+numberItem = getItemFromLocalStorage("numberItemData").toString();
 
 console.log(numberItem);
 

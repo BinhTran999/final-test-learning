@@ -8,10 +8,10 @@ const itemNameArr = [...document.querySelectorAll(".item .text-content")];
 const itemPriceArr = [...document.querySelectorAll(".item .price")];
 const itemDescriptionArr = [...document.querySelectorAll(".item .description")];
 const itemTypeArr = [...document.querySelectorAll(".item .type")];
+const itemIdArr = [...document.querySelectorAll(".item .id")];
 const shoppingItemList = document.getElementById("myBox");
 
 const exitDetailItem = document.querySelector("#exitAItem");
-const amountAllItemShop = document.querySelector("#amout");
 const closeItemList = document.querySelector("#cancel");
 const submitItem = document.querySelector("#submit");
 // PAGE
@@ -37,6 +37,7 @@ const itemImage = document.querySelector("#imageAItem");
 const divItemsShopping = document.querySelector("#shopping");
 const clickAdd = document.querySelector("#add-to-cart");
 // let CacheData = {};
+let cacheAr;
 let allData;
 let numberPage;
 const CONFIG_PAGE = {
@@ -52,6 +53,7 @@ function initNewArrItem(index) {
     itemNameArr[index].textContent,
     itemTypeArr[index].textContent,
     itemPriceArr[index].textContent,
+      itemIdArr[index].textContent
   ];
 }
 
@@ -67,8 +69,7 @@ divItems.forEach((item, index) => {
         "Description : " + itemDescriptionArr[index].textContent;
     document.querySelector("#price-item").textContent =
         "Price : " + itemPriceArr[index].textContent;
-    newArrItem = initNewArrItem(index);
-    cacheAr = newArrItem;
+    cacheAr = initNewArrItem(index);
   });
 });
 
@@ -174,6 +175,7 @@ window.onload = async function () {
 async function typeClick(aType) {
   typeCache = aType
   let resData = await funcRequest("http://10.63.161.172:3001/api/get-product", typeCache, 0);
+  console.log(resData.data.items)
   CURRENT_PAGE = 1;
   changeStartPage();
   await dataPage(CURRENT_PAGE, aType);
@@ -223,6 +225,7 @@ async function dataPage(CURRENT_PAGE, type="", keyword="") {
     return;
   }
   let data = resData.data.items
+
   let n;
   const startIndex = (CURRENT_PAGE-1) * CONFIG_PAGE.PAGE_SIZE;
   for (let i = 0; i < CONFIG_PAGE.PAGE_SIZE; i++) {
@@ -233,9 +236,9 @@ async function dataPage(CURRENT_PAGE, type="", keyword="") {
     itemPriceArr[i].innerHTML = data[i].price + " VND";
     itemDescriptionArr[i].innerHTML = data[i].description;
     itemTypeArr[i].innerHTML = data[i].type;
+    itemIdArr[i].innerHTML = data[i].id;
     n = startIndex + i + 1;
     if (i + startIndex === resData.data.total - 1) {
-      console.log("AAAAAAAAAAAAAAAAAAAAA")
       break;
     }
   }
@@ -320,37 +323,53 @@ prevPage.addEventListener("click", async (e) => {
 });
 
 function ArrToDic(data) {
-  console.log(cacheArrays)
   let frequencyDict = {};
   for (let item of data) {
+    console.log(item)
     if (frequencyDict[item[0]]) {
       frequencyDict[item[0]].quantity += 1;
     } else {
+      let v;
+      if (item[4] === undefined) {
+        v = 1;
+      } else {
+        v = item[4]
+      }
       frequencyDict[item[0]] = {
         name: item[0],
         type: item[1],
-        quantity: 1,
         price: item[2],
+        quantity: v,
+        id: item[3]
+
       };
     }
   }
-  console.log(frequencyDict)
   return frequencyDict;
 }
 
 const listShopItem = document.querySelector(".list_shop_item");
-let cacheArrays = []
-console.log(cacheArrays)
-divItemsShopping.addEventListener("click", (e) => {
+let cacheArrays = getItemFromLocalStorage("itemData")
 
+divItemsShopping.addEventListener("click", (e) => {
+  console.log(cacheArrays)
   const tableToRemove = listShopItem.querySelector("table");
-  const itemDic = ArrToDic(cacheArrays);
+
   if (shoppingItemList.style.display === "none") {
+
+    const itemDic = ArrToDic(cacheArrays);
+
+    cacheArrays = []
+    for (let item in itemDic) {
+      let elementArr = [itemDic[item].name, itemDic[item].type, itemDic[item].price, itemDic[item].id, itemDic[item].quantity]
+      cacheArrays.push(elementArr)
+    }
+    saveItemToLocalStorage("itemData", cacheArrays)
     shoppingItemList.style.display = "block";
-  console.log(itemDic)
     let table = createTable2(itemDic);
     listShopItem.appendChild(table);
     let totalPrice = 0;
+    console.log(itemDic)
     for (let item in itemDic) {
       console.log(itemDic[item].price.slice(0, -4))
       let amountWithoutSuffix = itemDic[item].price.slice(0, -4);
@@ -358,82 +377,38 @@ divItemsShopping.addEventListener("click", (e) => {
       let numberOfItem = parseInt(itemDic[item].quantity);
       totalPrice += amountNumber * numberOfItem;
     }
-    const rows = listShopItem.getElementsByTagName("tr");
+    document.querySelector("#amount").textContent = totalPrice + " VND"
     let allDeleteButtons = listShopItem.querySelectorAll(".delete_item")
     allDeleteButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const row = btn.closest('tr');
         let nameElement = row.querySelector(".name_item").textContent.split("(")[0]
-        delete itemDic[nameElement];
-        //
-        //
-        cacheArrays = Object.values(itemDic).map(item => [item.name, item.type, item.quantity, item.price]);
+        const count = parseInt(itemDic[nameElement].quantity);
+
+        document.querySelector("#amount").textContent = (totalPrice - parseInt(itemDic[nameElement].price.slice(0, -4))*count ).toString() + " VND"
+        if (listShopItem.getElementsByTagName("table")[0].rows.length === 1) {
+          cacheArrays = []
+          sabanAcc.textContent = "0";
+          shoppingItemList.style.display = "none";
+          listShopItem.removeChild(table);
+        } else {
+          delete itemDic[nameElement];
+          cacheArrays = cacheArrays.filter(function (item) {
+            return item[0] !== nameElement;
+          });
+          let currentValue = parseInt(sabanAcc.textContent) - count;
+          sabanAcc.textContent = currentValue.toString()
+        }
+        saveItemToLocalStorage("numberItemData", sabanAcc.textContent)
         saveItemToLocalStorage("itemData", cacheArrays)
-        console.log(getItemFromLocalStorage("itemData"))
         row.remove();
+
       });
     });
-    console.log(getItemFromLocalStorage("itemData"))
-    // for (let i in rows) {
-    //   let buttons = rows[i].querySelectorAll(".delete_item")
-    //   let nameElement = rows[i].querySelector(".name_item").textContent.split("(")[0];
-    //   console.log(itemDic)
-    //   console.log(itemDic[nameElement])
-    //   buttons.addEventListener("click", (e) => {
-    //     if (rows.length === 1) {
-    //       listShopItem.removeChild(table);
-    //       shoppingItemList.style.display = "none";
-    //     } else {
-    //       console.log(itemDic)
-    //       listShopItem.getElementsByTagName("table")[0].deleteRow(i)
-    //       console.log(itemDic["nameElement"])
-    //       delete itemDic["nameElement"];
-    //       console.log(itemDic)
-    //
-    //     }
-    //     i--;
-    //   })
-    // }
-
   } else {
-    console.log(322222)
     shoppingItemList.style.display = "none";
-    console.log(333333333)
   }
   tableToRemove.remove();
-
-  // deleteButtonItems.forEach((item, index) => {
-  //   item.addEventListener("click", () => {
-  //     let startTime = performance.now();
-  //     console.log(index);
-  //     if (listShopItem.getElementsByTagName("table")[0].rows.length === 1) {
-  //       listShopItem.removeChild(table);
-  //       cacheArrays = [];
-  //       shoppingItemList.style.display = "none";
-  //       deleteButtonItems = [];
-  //       let currentValue = parseInt(sabanAcc.textContent);
-  //       currentValue = 0;
-  //       number_item = currentValue;
-  //       sabanAcc.textContent = currentValue;
-  //     } else {
-  //       listShopItem.getElementsByTagName("table")[0].deleteRow(index);
-  //       const deleteItemName = cacheArrays[index][0];
-  //       const newcacheArrays = cacheArrays.filter(function (item) {
-  //         return item[0] != deleteItemName;
-  //       });
-  //       cacheArrays = newcacheArrays;
-  //       deleteButtonItems.splice(index, 1);
-  //       arr.splice(index, 1);
-  //       let currentValue = parseInt(sabanAcc.textContent);
-  //       currentValue -= itemDic[deleteItemName].quanlity;
-  //       number_item = currentValue;
-  //       sabanAcc.textContent = currentValue;
-  //     }
-  //     let endTime = performance.now();
-  //     console.log(endTime - startTime);
-  //   });
-  // });
-
 });
 
 function createTable2(dict) {
@@ -481,49 +456,6 @@ function createTable2(dict) {
   return table
 }
 
-// function createTable(arr) {
-//   const numRows = Object.keys(arr).length;
-//   const table = document.createElement("table");
-//   table.style.borderCollapse = "collapse";
-//   table.style.border = "1px solid black";
-//   for (let i = 0; i < numRows; i++) {
-//     const row = document.createElement("tr");
-//     row.style.border = "1px solid black";
-//     for (let j = 0; j < 3; j++) {
-//       if (j === 0) {
-//         const cell = document.createElement("td");
-//         cell.style.border = "1px solid black";
-//         cell.textContent = arr[i][0].name + "(x" + arr[i][0].quantity + ")";
-//         row.appendChild(cell);
-//         cell.style.width = "150px";
-//         cell.style.height = "20px";
-//       }
-//       if (j === 1) {
-//         const cell = document.createElement("td");
-//         cell.style.border = "1px solid black";
-//         cell.textContent =
-//             parseInt(arr[i][0].price) * parseInt(arr[i][0].quantity) + " VND";
-//         row.appendChild(cell);
-//         cell.style.width = "150px";
-//         cell.style.height = "20px";
-//       }
-//       if (j === 2) {
-//         const cell = document.createElement("button");
-//         cell.rowIndex = i;
-//         cell.className = "delete_item"
-//         row.appendChild(cell);
-//         cell.textContent = "delete";
-//         cell.style.backgroundColor = "black";
-//         cell.style.background = "white";
-//         cell.style.width = "100px";
-//         deleteButtonItems.push(cell);
-//       }
-//     }
-//     table.appendChild(row);
-//   }
-//   return table;
-// }
-
 let deleteItems = document.querySelectorAll(".table_item .delete_item");
 deleteItems.forEach((item, index) => {
   item.addEventListener("click", (e) => {
@@ -545,8 +477,21 @@ exitConfirmBox.addEventListener("click", (e) => {
   confirmBox.style.display = "none";
 });
 
-changeToSuccessScreen.addEventListener("click", (e) => {
+changeToSuccessScreen.addEventListener("click", async (e) => {
   createLoader(5000);
+  cacheArrays = getItemFromLocalStorage("itemData")
+  let approvalArr = []
+  for (let item in cacheArrays) {
+    approvalArr.push({
+      "productId": cacheArrays[item][3],
+      "productName": cacheArrays[item][0],
+      "quanlity": parseInt(cacheArrays[item][4]),
+      "price": parseInt(cacheArrays[item][2].slice(0, -4))
+    })
+
+  }
+  let dataApproval = await funcApproval("http://10.63.161.172:3001/api/insert-order", approvalArr)
+  saveItemToLocalStorage("orderID", dataApproval.items[0].orderId)
   setTimeout(function () {
     window.location.href = "order-detal.html";
   }, 5000);
@@ -558,7 +503,6 @@ searchInput.addEventListener(
         () => {
           const searchTerm = searchInput.value;
           CURRENT_PAGE = 1;
-          console.log(searchTerm);
           searchKeyWord(searchTerm);
         },
         500,
@@ -634,4 +578,48 @@ function createLoader(duration = 2000) {
   setTimeout(() => {
     container.remove();
   }, duration);
+}
+
+async function funcApproval(url, itemsArr = []) {
+  //true
+  //i = 0
+  createLoader(1701);
+  const maxRetriesApproval = 10
+  const retryDelayApproval = 50
+  for (let retries = 0; retries < maxRetriesApproval; retries++) {
+    try {
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "items": [
+            {
+              "products": itemsArr
+            }
+          ]
+        })
+      });
+      if (!response.ok) {
+        if (response.status === 500) {
+          await new Promise((resolve) => setTimeout(resolve, retryDelayApproval));
+          continue;
+        }
+        throw new Error(`HTTP error ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error:", error);
+      if (error.message === "HTTP error 500") {
+        await new Promise((resolve) => setTimeout(resolve, retryDelayApproval));
+        continue;
+      }
+      if (retries === maxRetriesApproval - 1) {
+        throw error;
+      }
+    }
+  }
+
 }
